@@ -1,0 +1,80 @@
+@import './variables.sass'
+
+h1
+    font-size: 3em
+    line-height: 0.8em
+    text-align: center
+    color: $main-red
+    font-family: ExpletusSans, Arial
+    font-weight: 700
+    margin: auto 0
+img
+    height: 1.2em
+    width: 1.2em
+    margin-right: 0.25em
+    font-size: 3em
+#titleContainer
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: flex-start
+    margin: 0.5em
+    margin-top: auto
+nav
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: flex-end
+    border-bottom: solid $st-main 3px
+    height: $nav-height
+    a
+        margin-right: 1em
+        margin-top: 1em
+        padding: 1em
+        display: block
+        text-decoration: none
+        background-color: $st-main
+        color: $main-white
+        font-weight: bold
+        border-radius: 4px 4px 0 0
+        &#dashLink
+            background-color: $main-red
+        &#fleetLink
+            background-color: $main-green
+        &#bankLink
+            background-color: $main-blue
+        &#settingsLink
+            background-color: $main-yellow
+        &#githubLink
+            background-color: $main-orange
+            white-space: nowrap
+            i
+                margin-left: 0.25em
+        &:hover
+            margin-top: 0em
+            padding-bottom: 2em
+        &.active
+            margin-top: 0em
+            padding-bottom: 2em
+.navLinks
+    max-width: 98vw
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+    margin-bottom: -1px
+@media(max-width: 758px)
+    nav
+        position: relative
+        margin-bottom: 60px
+        a
+            border-radius: 0 0 4px 4px
+            padding: 0.5em
+            margin-right: 0.5em
+    .navLinks
+        position: absolute
+        top: 86px
+        width: 98vw
+@media(max-width: 645px)
+    .navLinks
+        top: 101px

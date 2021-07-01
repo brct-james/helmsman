@@ -1,0 +1,26 @@
+<nav>
+    <div id="titleContainer">
+        <img src="assets/images/IA_Shield.png" />
+        <h1>{{ title }}</h1>
+    </div>
+    <div class="navLinks">
+        <a
+            id="dashLink"
+            routerLink="/"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >Dashboard
+        </a>
+        <a id="fleetLink" routerLink="/f" [routerLinkActive]="['active']"
+            >Fleet</a
+        >
+        <a id="bankLink" routerLink="/b" [routerLinkActive]="['active']"
+            >Bank</a
+        >
+        <a id="settingsLink" routerLink="/settings" [routerLinkActive]="['active']">Settings</a>
+        <a id="githubLink" href="" target="_blank"
+        >Github<i class="fas fa-external-link-alt"></i
+    ></a>
+    </div>
+</nav>
+<router-outlet></router-outlet>
