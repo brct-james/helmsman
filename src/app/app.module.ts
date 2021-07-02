@@ -8,6 +8,12 @@ import { FleetOverviewComponent } from './fleet-overview/fleet-overview.componen
 import { BankOverviewComponent } from './bank-overview/bank-overview.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
+import { NetWorthChartComponent } from './net-worth-chart/net-worth-chart.component';
+import { AutomationOverviewComponent } from './automation-overview/automation-overview.component';
+import { FleetAutomationComponent } from './fleet-automation/fleet-automation.component';
+import { ShipAutomationControlsComponent } from './ship-automation-controls/ship-automation-controls.component';
+import { LoanAutomationComponent } from './loan-automation/loan-automation.component';
+import { ShipCardComponent } from './ship-card/ship-card.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +22,13 @@ import { AccountInfoComponent } from './account-info/account-info.component';
     FleetOverviewComponent,
     BankOverviewComponent,
     SettingsComponent,
-    AccountInfoComponent
+    AccountInfoComponent,
+    NetWorthChartComponent,
+    AutomationOverviewComponent,
+    FleetAutomationComponent,
+    ShipAutomationControlsComponent,
+    LoanAutomationComponent,
+    ShipCardComponent
   ],
   imports: [
     BrowserModule,
