@@ -14,6 +14,7 @@ import { FleetAutomationComponent } from './fleet-automation/fleet-automation.co
 import { ShipAutomationControlsComponent } from './ship-automation-controls/ship-automation-controls.component';
 import { LoanAutomationComponent } from './loan-automation/loan-automation.component';
 import { ShipCardComponent } from './ship-card/ship-card.component';
+import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ShipCardComponent } from './ship-card/ship-card.component';
     FleetAutomationComponent,
     ShipAutomationControlsComponent,
     LoanAutomationComponent,
-    ShipCardComponent
+    ShipCardComponent,
+    StructuresOverviewComponent
   ],
   imports: [
     BrowserModule,

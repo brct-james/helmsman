@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FleetOverviewComponent } from './fleet-overview/fleet-overview.component';
 import { BankOverviewComponent } from './bank-overview/bank-overview.component';
 import { SettingsComponent } from './settings/settings.component';
+import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 
 const routes: Routes = [
     { path: '', component: DashboardComponent },
@@ -15,6 +16,10 @@ const routes: Routes = [
     { path: 'b', redirectTo: 'b/overview', pathMatch: 'full'},
     { path: 'b', children: [
         { path: "overview", component: BankOverviewComponent },
+    ]},
+    { path: 's', redirectTo: 's/overview', pathMatch: 'full'},
+    { path: 's', children: [
+        { path: "overview", component: StructuresOverviewComponent },
     ]},
 ];
 
