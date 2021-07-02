@@ -3,24 +3,35 @@
         <img src="assets/images/spaceboard_logo.png" />
         <h1>{{ title }}</h1>
     </div>
-    <div class="navLinks">
-        <a
-            id="dashLink"
-            routerLink="/"
-            [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-            >Dashboard
-        </a>
-        <a id="fleetLink" routerLink="/f" [routerLinkActive]="['active']"
-            >Fleet</a
-        >
-        <a id="bankLink" routerLink="/b" [routerLinkActive]="['active']"
-            >Bank</a
-        >
-        <a id="settingsLink" routerLink="/settings" [routerLinkActive]="['active']">Settings</a>
-        <a id="githubLink" href="https://github.com/brct-james/spaceboard" target="_blank"
-        >Github<i class="fas fa-external-link-alt"></i
-    ></a>
+    <div class="navGroup">
+        <app-account-info></app-account-info>
+        <div class="navLinks">
+            <a
+                id="dashLink"
+                routerLink="/"
+                [routerLinkActive]="['active']"
+                [routerLinkActiveOptions]="{ exact: true }"
+                >Dashboard
+            </a>
+            <a id="fleetLink" routerLink="/f" [routerLinkActive]="['active']"
+                >Fleet</a
+            >
+            <a id="bankLink" routerLink="/b" [routerLinkActive]="['active']"
+                >Bank</a
+            >
+            <a
+                id="settingsLink"
+                routerLink="/settings"
+                [routerLinkActive]="['active']"
+                >Settings</a
+            >
+            <a
+                id="githubLink"
+                href="https://github.com/brct-james/spaceboard"
+                target="_blank"
+                >Github<i class="fas fa-external-link-alt"></i
+            ></a>
+        </div>
     </div>
 </nav>
 <router-outlet></router-outlet>

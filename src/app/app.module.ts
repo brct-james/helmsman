@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FleetOverviewComponent } from './fleet-overview/fleet-overview.component';
 import { BankOverviewComponent } from './bank-overview/bank-overview.component';
 import { SettingsComponent } from './settings/settings.component';
+import { AccountInfoComponent } from './account-info/account-info.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { SettingsComponent } from './settings/settings.component';
     DashboardComponent,
     FleetOverviewComponent,
     BankOverviewComponent,
-    SettingsComponent
+    SettingsComponent,
+    AccountInfoComponent
   ],
   imports: [
     BrowserModule,
