@@ -7,42 +7,61 @@ import { LocalStorageService } from 'ngx-webstorage';
 })
 export class ApiService {
     api: SpaceTraders;
-    userToken: string;
-    accountInfo: any;
-
-    //const spaceTraders = new SpaceTraders()
-
-    // Already existing user
-    //spaceTraders.init('username', 'token')
-
-    // Claim a new user
-    //const token = await spaceTraders.init('username')
+    // accountInfo: any;
+    // userToken: string;
 
     constructor(private ls: LocalStorageService) {
+        // this.accountInfo = {
+        //     username: "",
+        //     joinedAt: "",
+        //     shipCount: -1,
+        //     structureCount: -1,
+        //     credits: -1
+        // }
         this.api = new SpaceTraders(
             { useSharedLimiter: true },
             { maxConcurrent: 2, minTime: 500 }
         );
+        this.checkSessionStatus();
+    }
+
+    checkSessionStatus() {
+        this.clearLocally("userInfo");
+        console.log("Checking for cached credentials to resume session")
+        let localCredentials = this.retrieveLocally("userInfo");
+        if (localCredentials) {
+            //saved session, attempt login with same
+            console.log("Credentials found for:", localCredentials.username);
+            this.login(localCredentials.username, localCredentials.token);
+        }
+        else {
+            //no session saved, request user credentials
+            //temporarily hardcoding these creds
+            console.log("No credentials found locally, requesting new credentials from user")
+            this.login('Greenitthe', 'c8283f54-c08f-4773-8c40-fc99b0071a19');
+        }
     }
 
     login(username: string, token?: string) {
+        console.log("Attempting login with:",username, "| token:",token)
         this.api.init(username, token).then((token: any) => {
-            this.userToken = token;
-            console.log('Token', this.userToken);
+            // this.userToken = token;
+            this.storeLocally("userInfo", {username: username, userToken: token});
         });
-        this.getAccount();
+        //After login cache user info, then request basic account info from api
+        this.getAccountInfo();
     }
 
-    getAccount() {
+    getAccountInfo() {
         this.api.getAccount().then((res: any) => {
-            this.accountInfo = res;
+            this.storeLocally("accountInfo", res.user);
+            // this.accountInfo = res;
             this.pushNetWorth(res.user.credits);
-            console.log('Account Info', res);
+            console.log('Account Info:', res.user);
         });
     }
 
     pushNetWorth(newValue: number) {
-        //TODO: Expand to consider ship and cargo value as well (toggleable)
         let netWorth = this.retrieveLocally("netWorthHistory");
         if (netWorth && netWorth.values.length > 0 && netWorth.values.length == netWorth.timestamps.length) {
             netWorth.values.push(newValue);
@@ -54,12 +73,12 @@ export class ApiService {
                 timestamps: [Date.now().valueOf()]
             };
         }
-        this.cacheLocally("netWorthHistory", netWorth);
+        this.storeLocally("netWorthHistory", netWorth);
         //this.clearLocally("netWorthHistory")
     }
 
-    cacheLocally(key: string, data: any) {
-        console.log(key, data)
+    storeLocally(key: string, data: any) {
+        console.log("Storing:", key, data)
         this.ls.store(key, data);
     }
 
@@ -70,4 +89,16 @@ export class ApiService {
     clearLocally(key: string) {
         return this.ls.clear(key);
     }
+
+    /*
+    Need to get data consistently every 5 min
+    timeout(checkonems, 299900)
+    checkSaveHistory:
+        if(Date.now() - lastSaved >= 300000)
+            getAccount
+            cacheLocally
+            timeout(checkSaveHistory, 299900)
+        else
+            timeout(checkSaveHistory, 1)
+    */
 }
