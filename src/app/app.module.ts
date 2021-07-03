@@ -32,15 +32,10 @@ import { StructuresOverviewComponent } from './structures-overview/structures-ov
     ShipAutomationControlsComponent,
     LoanAutomationComponent,
     ShipCardComponent,
-    StructuresOverviewComponent
+    StructuresOverviewComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ChartsModule,
-    NgxWebstorageModule.forRoot(),
-  ],
+  imports: [BrowserModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot()],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
