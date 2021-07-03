@@ -26,13 +26,13 @@ export class ApiService {
     }
 
     checkSessionStatus() {
-        this.clearLocally("userInfo");
+        // this.clearLocally("userInfo");
         console.log("Checking for cached credentials to resume session")
         let localCredentials = this.retrieveLocally("userInfo");
         if (localCredentials) {
             //saved session, attempt login with same
             console.log("Credentials found for:", localCredentials.username);
-            this.login(localCredentials.username, localCredentials.token);
+            this.login(localCredentials.username, localCredentials.userToken);
         }
         else {
             //no session saved, request user credentials

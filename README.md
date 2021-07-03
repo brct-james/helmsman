@@ -10,7 +10,6 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 + Visualizes Changes in Net Worth
 
 ## Roadmap / TODO
-+ Troubleshoot: loging in with saved credentials seems to cause a lot of errors - token is undefined :/
 + Ensure refactor of api system for caching user info and account info to localstorage is complete and functionality remains
 + Set up intervals for arciving net worth (5m)
 + Set up interval for refreshing account info (1m)
