@@ -1,1 +1,50 @@
-<p>ship-card works!</p>
+<div class="shipCard">
+  <div class="shipCardHeader">
+    <p class="shipClass">{{ shipInfo.class }}</p>
+    <p class="shipName">{{ shipInfo.type }}</p>
+    <div class="shipTagsList"></div>
+  </div>
+  <div class="shipDetails">
+    <div class="shipCardImages">
+      <div class="shipPreview"></div>
+      <div class="shipManufacturerLogo">{{ shipInfo.manufacturer }}</div>
+    </div>
+    <div class="shipInformation">
+      <div class="shipStats">
+        <table>
+          <tr>
+            <th>Fuel</th>
+            <th>Cargo</th>
+            <th>Load Speed</th>
+          </tr>
+          <tr>
+            <td>{{ getShipFuel(shipInfo.cargo) }}</td>
+            <td>{{ shipInfo.maxCargo - shipInfo.spaceAvailable }}/{{ shipInfo.maxCargo }}</td>
+            <td>{{ shipInfo.loadingSpeed }}</td>
+          </tr>
+          <tr>
+            <th>Speed</th>
+            <th>Plating</th>
+            <th>Weapons</th>
+          </tr>
+          <tr>
+            <td>{{ shipInfo.speed }}</td>
+            <td>{{ shipInfo.plating }}</td>
+            <td>{{ shipInfo.weapons }}</td>
+          </tr>
+        </table>
+      </div>
+      <div class="shipStatus">
+        <div class="shipDocked" *ngIf="shipInfo.location">
+          <p class="shipLocation">Location: {{ shipInfo.location }} ({{ shipInfo.x }},{{ shipInfo.y }})</p>
+        </div>
+        <div class="shipFlying" *ngIf="shipInfo.flightPlanId">
+          <p class="shipFlightPlan">Flight Plan: {{ shipInfo.flightPlanId }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="shipCardFooter">
+    <p class="shipID">Ship ID: {{ shipInfo.id }}</p>
+  </div>
+</div>

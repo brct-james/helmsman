@@ -15,14 +15,19 @@ export class FleetOverviewComponent implements OnInit {
   ngOnInit(): void {
     this.intervals.new(
       'getFleetStatus',
-      function () {
-        this.api.getAllShips(
-          function (shipData) {
-            this.fleetArray = shipData;
-          }.bind(this)
-        );
-      }.bind(this),
+      //TODO: Make sure this is working still after changing it from an anon func
+      this.updateFleetInfo.bind(this),
       10 * 1000
+    );
+    this.updateFleetInfo();
+  }
+
+  updateFleetInfo(): void {
+    this.api.getAllShips(
+      function (shipData) {
+        this.fleetArray = shipData;
+        console.log(this.fleetArray);
+      }.bind(this)
     );
   }
 }

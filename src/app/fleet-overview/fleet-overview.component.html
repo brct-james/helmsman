@@ -1,3 +1,5 @@
-<p>fleet-overview works!</p>
+<button (click)="updateFleetInfo()">Update Fleet Info</button>
 <app-fleet-automation></app-fleet-automation>
-<app-ship-card *ngFor="let ship of fleetArray"></app-ship-card>
+<div class="fleetCardsContainer">
+  <app-ship-card *ngFor="let ship of fleetArray" [shipInfo]="ship"></app-ship-card>
+</div>
