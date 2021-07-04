@@ -8,9 +8,19 @@ import { IntervalService } from '../interval.service';
   styleUrls: ['./fleet-overview.component.sass'],
 })
 export class FleetOverviewComponent implements OnInit {
-  fleetArray: any[] = [];
+  /*
+  cargo[{good:"", quantity:0, totalVolume, 0}]
+  */
 
+  fleetArray: any[] = [];
   constructor(public api: ApiService, public intervals: IntervalService) {}
+
+  get timeRemainingGetFleetStatus() {
+    if (this.intervals.timeRemainingTillCall['getFleetStatus'] === undefined) {
+      return 0;
+    }
+    return Math.ceil(this.intervals.timeRemainingTillCall['getFleetStatus'].valueOf() / 1000);
+  }
 
   ngOnInit(): void {
     this.intervals.new(
@@ -26,7 +36,6 @@ export class FleetOverviewComponent implements OnInit {
     this.api.getAllShips(
       function (shipData) {
         this.fleetArray = shipData;
-        console.log(this.fleetArray);
       }.bind(this)
     );
   }

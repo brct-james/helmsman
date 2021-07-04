@@ -25,7 +25,7 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - - - Individual ship page with detailed cargo manifest and maybe even action log
 - - - ShipStatus section should show the appropriate planet icon when docked (along with location x/y), appropriate ship flying gif when not (along with eta/start/dest)
 - Interval service should only run interval items if the current path is relevant (accInfo would be '/' scope, while allShips is '/f/') to save calls & bandwidth
-- Display interval countdowns (for those using interval-service), allow manual refresh of account info
+- \[Started: interval-service now supports countdowns] Display interval countdowns (for those using interval-service), allow manual refresh of account info
 - Login Page, force redirect here until suceeed login (tries cached credentials before redirect)
 - Ship nicknaming & tagging (use ship ID, join with local object containing name and tag array) - will need to change shipName to input tag, add shipType
 - Fleet search, sort, filter based on name/tags, as well as ship info like class/type/speed/weapons/etc.

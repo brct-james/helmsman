@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IntervalService {
   intervals: any[] = [];
+  //To create a 'countdown' till refresh, create a getter accessing this dict in the component (and in the view use {{ timeRemainingGetFleetStatus }}, for example), e.g.:
+  // get timeRemainingGetFleetStatus() {
+  //   return Math.ceil(this.intervals.timeRemainingTillCall['getFleetStatus'].valueOf() / 1000) + 's';
+  // }
+  timeRemainingTillCall: { [name: string]: number } = {};
   DEBUG = true;
   //Interval Service minimum interval is 1000ms/1s
   tickRate = 1000;
 
-  constructor(public st: ApiService) {
+  constructor() {
     setInterval(this.callIntervals.bind(this), this.tickRate);
   }
 
@@ -34,6 +38,17 @@ export class IntervalService {
     this.intervals = [];
   }
 
+  calcTimeRemaining(target: any): number {
+    let now = Date.now();
+    let res = target.interval - (now - target.lastCalled);
+    return res >= 0 ? res : 0;
+  }
+
+  findByName(name: string, targetArr: any[]): any {
+    let res = targetArr.filter((obj) => obj.name === name);
+    return res[0];
+  }
+
   callIntervals() {
     this.DEBUG && console.log('[interval-service] Checking intervals for due actions');
     let now = Date.now();
@@ -43,6 +58,7 @@ export class IntervalService {
         obj.action();
         obj.lastCalled = now;
       }
+      this.timeRemainingTillCall[obj.name] = this.calcTimeRemaining(obj);
       return obj;
     });
   }
