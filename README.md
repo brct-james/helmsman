@@ -12,9 +12,6 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 
 ## Roadmap / TODO
 
-- Ensure refactor of api system for caching user info and account info to localstorage is complete and functionality remains
-- Set up intervals for arciving net worth (5m)
-- Set up interval for refreshing account info (1m)
 - Ensure no unnecessary saving to localstorage outside of intervals
 - Display interval countdowns, allow manual refresh of account info
 - Net Worth chart will have different time scale and interval presets for visualization (30 min/5 min, 3 hr/30 min, 1 day/4 hr, etc.)
@@ -23,6 +20,8 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - Numeric values for each net worth stat next to chart in a neat table
 - GUI-accessible automation **Plans**. Import/export/edit as text as well for ease of use. Support for conditionals, considering galactic market data, calculating route/margin efficiency, auto-scout market data, etc. (e.g. if value of X too low change to Y plan, if A route/commodity becomes more profitable than current plan change plans, etc.)
 - Integration with Captains-log: accesses the exposed API and allows use of remote longitudinal data preferentially over local. Would work with any other data-logging service that implements the API
+- Optimize performance
+- Implement API req queue
 
 ## Related Projects
 

@@ -1,5 +1,6 @@
 <div id="netWorthChart" style="display: block">
   <canvas
+    id="nwChart"
     baseChart
     width="400"
     height="400"
@@ -12,4 +13,5 @@
     [plugins]="lineChartPlugins"
   >
   </canvas>
+  <span>Next net worth archival in: {{ timeTillNext }}s</span>
 </div>

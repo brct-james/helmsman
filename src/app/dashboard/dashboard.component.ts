@@ -10,4 +10,8 @@ export class DashboardComponent implements OnInit {
   constructor(public st: ApiService) {}
 
   ngOnInit(): void {}
+
+  resetLocalStorage() {
+    this.st.clearAllLocalStorage();
+  }
 }

@@ -7,76 +7,98 @@ import { LocalStorageService } from 'ngx-webstorage';
 })
 export class ApiService {
   api: SpaceTraders;
-  // accountInfo: any;
-  // userToken: string;
+  haveSession: boolean = false;
+  DEBUG = true;
 
   constructor(private ls: LocalStorageService) {
-    // this.accountInfo = {
-    //     username: "",
-    //     joinedAt: "",
-    //     shipCount: -1,
-    //     structureCount: -1,
-    //     credits: -1
-    // }
     this.api = new SpaceTraders({ useSharedLimiter: true }, { maxConcurrent: 2, minTime: 500 });
+
+    setInterval(this.handleInterval.bind(this), 5000);
     this.checkSessionStatus();
+  }
+
+  get lastUpdated(): number {
+    let res = this.retrieveLocally('lastUpdated');
+    return res === null ? Date.now() - 60000 : res;
+  }
+
+  set lastUpdated(newTimestamp: number) {
+    this.storeLocally('lastUpdated', newTimestamp);
+  }
+
+  get lastArchived(): number {
+    let res = this.retrieveLocally('lastArchived');
+    return res === null ? Date.now() - 9000000 : res; //300000 * 30 = 9000000
+  }
+
+  set lastArchived(newTimestamp: number) {
+    this.storeLocally('lastArchived', newTimestamp);
   }
 
   checkSessionStatus() {
     // this.clearLocally("userInfo");
-    console.log('[api-service] Checking for cached credentials to resume session');
+    this.DEBUG && console.log('[api-service] Checking for cached credentials to resume session');
     let localCredentials = this.retrieveLocally('userInfo');
     if (localCredentials) {
       //saved session, attempt login with same
-      console.log('[api-service] Credentials found for:', localCredentials.username);
+      this.DEBUG && console.log('[api-service] Credentials found for:', localCredentials.username);
       this.login(localCredentials.username, localCredentials.userToken);
     } else {
       //no session saved, request user credentials
       //temporarily hardcoding these creds
-      console.log('[api-service] No credentials found locally, requesting new credentials from user');
+      this.DEBUG && console.log('[api-service] No credentials found locally, requesting new credentials from user');
       this.login('Greenitthe', 'c8283f54-c08f-4773-8c40-fc99b0071a19');
     }
   }
 
   login(username: string, token?: string) {
-    console.log('[api-service] Attempting login with:', username, '| token:', token);
+    this.DEBUG && console.log('[api-service] Attempting login with:', username, '| token:', token);
     this.api.init(username, token).then((token: any) => {
-      // this.userToken = token;
       this.storeLocally('userInfo', {
         username: username,
         userToken: token,
       });
       //After login cache user info, then request basic account info from api
-      this.getAccountInfo();
+      this.DEBUG && console.log('[api-service] Have session now true, timeout interval will begin ticking, entries will populate at 5 minute marks');
+      this.haveSession = true;
     });
   }
 
   getAccountInfo() {
     this.api.getAccount().then((res: any) => {
       this.storeLocally('accountInfo', res.user);
-      // this.accountInfo = res;
-      this.pushNetWorth(res.user.credits);
-      console.log('[api-service] Account Info:', res.user);
+      this.DEBUG && console.log('[api-service] Got accountInfo:', res.user);
     });
   }
 
-  pushNetWorth(newValue: number) {
+  getAccountInfoAndPushNW() {
+    this.api.getAccount().then((res: any) => {
+      this.storeLocally('accountInfo', res.user);
+      this.pushNetWorth(res.user.credits);
+      this.DEBUG && console.log('[api-service] Got accountInfo and pushedNetWorth');
+    });
+  }
+
+  pushNetWorth(newValue: number, timestamp?: number) {
+    if (timestamp === undefined) {
+      timestamp = Date.now().valueOf();
+    }
     let netWorth = this.retrieveLocally('netWorthHistory');
     if (netWorth && netWorth.values.length > 0 && netWorth.values.length == netWorth.timestamps.length) {
       netWorth.values.push(newValue);
-      netWorth.timestamps.push(Date.now().valueOf());
+      netWorth.timestamps.push(timestamp);
     } else {
       netWorth = {
         values: [newValue],
-        timestamps: [Date.now().valueOf()],
+        timestamps: [timestamp],
       };
     }
     this.storeLocally('netWorthHistory', netWorth);
-    //this.clearLocally("netWorthHistory")
+    // this.clearLocally('netWorthHistory');
   }
 
   storeLocally(key: string, data: any) {
-    console.log('[api-service] Storing:', key, data);
+    this.DEBUG && console.log('[api-service] Storing:', key, data);
     this.ls.store(key, data);
   }
 
@@ -88,15 +110,39 @@ export class ApiService {
     return this.ls.clear(key);
   }
 
-  /*
-    Need to get data consistently every 5 min
-    timeout(checkonems, 299900)
-    checkSaveHistory:
-        if(Date.now() - lastSaved >= 300000)
-            getAccount
-            cacheLocally
-            timeout(checkSaveHistory, 299900)
-        else
-            timeout(checkSaveHistory, 1)
-    */
+  clearAllLocalStorage(): void {
+    this.ls.clear();
+    window.location.reload();
+  }
+
+  handleInterval() {
+    if (this.haveSession) {
+      this.DEBUG && console.log('[api-service] Refresh check with session');
+      let now = new Date();
+      let nowMinutes = now.getMinutes();
+      let nowValue = now.valueOf();
+      // Check for update account info interval (60s: 60000)
+      if (nowValue - this.lastUpdated >= 60000) {
+        this.DEBUG && console.log('[api-service] Refresh interval reached, updating accountInfo.');
+        this.getAccountInfo();
+        this.lastUpdated = nowValue + 1;
+      }
+      // Check for archive new net worth data point (300s: 300000)
+      let nmString = nowMinutes.toString();
+      nmString = nmString[nmString.length - 1];
+      if (nowValue - this.lastArchived >= 300000 && (nmString == '5' || nmString == '0')) {
+        this.DEBUG && console.log('[api-service] Refresh interval reached, archiving net worth.');
+        let numMissed = Math.floor((10000 + nowValue - this.lastArchived) / 300000);
+        this.DEBUG && console.log('[api-service] Applying all archive intervals (missed + 1 current):', numMissed);
+        for (let i = 1; i <= numMissed - 1; i++) {
+          let cTime = this.lastArchived + i * 300000;
+          this.pushNetWorth(null, cTime);
+        }
+        this.getAccountInfoAndPushNW();
+        this.lastArchived = nowValue;
+      }
+    } else {
+      this.DEBUG && console.log('[api-service] Refresh check, no session found');
+    }
+  }
 }
