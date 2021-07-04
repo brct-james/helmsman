@@ -16,10 +16,13 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - Fleet Overview
 - - Overview
 - - Automation (For entire fleet - per ship automation is handled by cards)
-- - Cards
+- - \[Started] Cards
+- - - \[Done] Show ship innate stats, values like fuel and cargo, location, etc.
+- - - Flight Plan should lookup start, dest, and eta from flight plan api
 - - - Auto-Update Toggle (Sync with settings page): cause won't necessarily always need to have the latest 10s update on the ships, useful for saving calls/bandwidth when it may only be desirable to req updates manually - also allow configuring the auto-update speed in settings (update method in interval service)
 - - - Badge Component (generic badge constructor for class, tags, type, etc.)
-- - - Automation
+- - - Individual Automation
+- - - Individual ship page with detailed cargo manifest and maybe even action log
 - - - ShipStatus section should show the appropriate planet icon when docked (along with location x/y), appropriate ship flying gif when not (along with eta/start/dest)
 - Interval service should only run interval items if the current path is relevant (accInfo would be '/' scope, while allShips is '/f/') to save calls & bandwidth
 - Display interval countdowns (for those using interval-service), allow manual refresh of account info
