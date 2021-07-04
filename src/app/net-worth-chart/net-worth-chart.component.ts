@@ -13,7 +13,7 @@ export class NetWorthChartComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
   lastChartUpdate = this.st.lastUpdated;
   timeTillNext = 300000;
-  DEBUG = true;
+  DEBUG = false;
 
   public lineChartData: ChartDataSets[] = [{ data: [], label: 'Net Worth', spanGaps: false }];
   public lineChartLabels: string[] = [];

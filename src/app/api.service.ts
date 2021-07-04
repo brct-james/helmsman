@@ -8,7 +8,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 export class ApiService {
   api: SpaceTraders;
   haveSession: boolean = false;
-  DEBUG = true;
+  DEBUG = false;
 
   constructor(private ls: LocalStorageService) {
     this.api = new SpaceTraders({ useSharedLimiter: true }, { maxConcurrent: 2, minTime: 500 });
@@ -76,6 +76,14 @@ export class ApiService {
       this.storeLocally('accountInfo', res.user);
       this.pushNetWorth(res.user.credits);
       this.DEBUG && console.log('[api-service] Got accountInfo and pushedNetWorth');
+    });
+  }
+
+  getAllShips(callback: Function) {
+    this.api.getShips().then((res: any) => {
+      this.storeLocally('shipInfo', res.ships);
+      this.DEBUG && console.log('[api-service] Got all ships info, running callback');
+      callback(res.ships);
     });
   }
 
