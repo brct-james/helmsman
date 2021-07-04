@@ -1,1 +1,17 @@
-<p>net-worth-chart works!</p>
+<div id="netWorthChart" style="display: block">
+  <canvas
+    id="nwChart"
+    baseChart
+    width="400"
+    height="400"
+    [datasets]="lineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [colors]="lineChartColors"
+    [legend]="lineChartLegend"
+    [chartType]="lineChartType"
+    [plugins]="lineChartPlugins"
+  >
+  </canvas>
+  <span>Next net worth archival in: {{ timeTillNext }}s</span>
+</div>

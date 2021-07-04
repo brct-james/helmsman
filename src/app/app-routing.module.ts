@@ -7,24 +7,18 @@ import { SettingsComponent } from './settings/settings.component';
 import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 
 const routes: Routes = [
-    { path: '', component: DashboardComponent },
-    { path: 'settings', component: SettingsComponent },
-    { path: 'f', redirectTo: 'f/overview', pathMatch: 'full'},
-    { path: 'f', children: [
-        { path: "overview", component: FleetOverviewComponent },
-    ]},
-    { path: 'b', redirectTo: 'b/overview', pathMatch: 'full'},
-    { path: 'b', children: [
-        { path: "overview", component: BankOverviewComponent },
-    ]},
-    { path: 's', redirectTo: 's/overview', pathMatch: 'full'},
-    { path: 's', children: [
-        { path: "overview", component: StructuresOverviewComponent },
-    ]},
+  { path: '', component: DashboardComponent },
+  { path: 'settings', component: SettingsComponent },
+  { path: 'f', redirectTo: 'f/overview', pathMatch: 'full' },
+  { path: 'f', children: [{ path: 'overview', component: FleetOverviewComponent }] },
+  { path: 'b', redirectTo: 'b/overview', pathMatch: 'full' },
+  { path: 'b', children: [{ path: 'overview', component: BankOverviewComponent }] },
+  { path: 's', redirectTo: 's/overview', pathMatch: 'full' },
+  { path: 's', children: [{ path: 'overview', component: StructuresOverviewComponent }] },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload', scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled'})],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
