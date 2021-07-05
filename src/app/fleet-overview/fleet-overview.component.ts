@@ -23,12 +23,7 @@ export class FleetOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.intervals.new(
-      'getFleetStatus',
-      //TODO: Make sure this is working still after changing it from an anon func
-      this.updateFleetInfo.bind(this),
-      10 * 1000
-    );
+    this.intervals.new('getFleetStatus', this.updateFleetInfo.bind(this), 10 * 1000);
     this.updateFleetInfo();
   }
 

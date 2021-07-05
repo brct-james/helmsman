@@ -90,13 +90,10 @@ export class ApiService {
     //Currently only gets OE system flight plans - will need to expand functionality later and either query for each flightId in ships arr or for each system...
     this.api.getFlightPlans('OE').then((res: any) => {
       // insert flightPlanObj
-      console.log(ships);
       res = res.flightPlans;
-      console.log(res);
       let mergedArray = this.insertObjByKey(ships, res, 'flightPlanId', 'id');
       this.storeLocally('shipInfo', mergedArray);
       this.DEBUG && console.log('[api-service] Got all flight plan info, running callback');
-      console.log(mergedArray);
       callback(mergedArray);
     });
   }

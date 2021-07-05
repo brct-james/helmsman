@@ -38,7 +38,7 @@
         <div class="shipDocked" *ngIf="shipInfo.location">
           <p class="shipLocation">Location: {{ shipInfo.location }} ({{ shipInfo.x }},{{ shipInfo.y }})</p>
         </div>
-        <div class="shipFlying" *ngIf="shipInfo.flightPlanId">
+        <div class="shipFlying" *ngIf="shipInfo.flightPlan">
           <p class="shipFlightPlan">
             Flight Plan: ({{ shipInfo.flightPlan.departure }} -> {{ shipInfo.flightPlan.destination }}: ETA
             {{ shipInfo.flightPlan.arrivesAt | arrivalEta: tRemShipStatus }})

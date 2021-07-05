@@ -22,12 +22,12 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - - Automation (For entire fleet - per ship automation is handled by cards)
 - - \[Started] Cards
 - - - \[Done] Show ship innate stats, values like fuel and cargo, location, etc.
-- - - Flight Plan should lookup start, dest, and eta from flight plan api
+- - - \[Done] Flight Plan should lookup start, dest, and eta from flight plan api
 - - - Auto-Update Toggle (Sync with settings page): cause won't necessarily always need to have the latest 10s update on the ships, useful for saving calls/bandwidth when it may only be desirable to req updates manually - also allow configuring the auto-update speed in settings (update method in interval service)
 - - - Badge Component (generic badge constructor for class, tags, type, etc.)
 - - - Individual Automation
 - - - Individual ship page with detailed cargo manifest and maybe even action log
-- - - ShipStatus section should show the appropriate planet icon when docked (along with location x/y), appropriate ship flying gif when not (along with eta/start/dest)
+- - - \[Done] ShipStatus section should show the appropriate planet icon when docked (along with location x/y), appropriate ship flying gif when not (along with eta/start/dest)
 - Interval service should only run interval items if the current path is relevant (accInfo would be '/' scope, while allShips is '/f/') to save calls & bandwidth
 - \[Started: interval-service now supports countdowns] Display interval countdowns (for those using interval-service), allow manual refresh of account info
 - Placeholder/loading message while waiting for fleet list (ship-cards) to populate
@@ -44,6 +44,7 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - Implement API req queue (also rework api service & use with callbacks) (also Ensure no unnecessary saving to localstorage outside of intervals)
 - Net Worth Chart MkII (migrate to interval service)
 - Re-evaluate ship card UI
+- See about changing how fleet-overview works so ship-card elements aren't regenerated every time shipInfo is refreshed (may not be feasible)
 
 ## Related Projects
 
