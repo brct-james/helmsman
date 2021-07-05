@@ -81,10 +81,33 @@ export class ApiService {
 
   getAllShips(callback: Function) {
     this.api.getShips().then((res: any) => {
-      this.storeLocally('shipInfo', res.ships);
-      this.DEBUG && console.log('[api-service] Got all ships info, running callback');
-      callback(res.ships);
+      this.DEBUG && console.log('[api-service] Got all ships info, attempting to get flight plans');
+      this.getAndMergeFlightPlans(res.ships, callback);
     });
+  }
+
+  getAndMergeFlightPlans(ships: any, callback: Function) {
+    //Currently only gets OE system flight plans - will need to expand functionality later and either query for each flightId in ships arr or for each system...
+    this.api.getFlightPlans('OE').then((res: any) => {
+      // insert flightPlanObj
+      console.log(ships);
+      res = res.flightPlans;
+      console.log(res);
+      let mergedArray = this.insertObjByKey(ships, res, 'flightPlanId', 'id');
+      this.storeLocally('shipInfo', mergedArray);
+      this.DEBUG && console.log('[api-service] Got all flight plan info, running callback');
+      console.log(mergedArray);
+      callback(mergedArray);
+    });
+  }
+
+  // https://stackoverflow.com/questions/17880476/joins-in-javascript
+  // Modified to insert flight plan object rather than left join contents of object
+  insertObjByKey(objArr1: any[], objArr2: any[], key1: string, key2: string) {
+    return objArr1.map((anObj1) => ({
+      flightPlan: objArr2.find((anObj2) => anObj1[key1] === anObj2[key2]),
+      ...anObj1,
+    }));
   }
 
   pushNetWorth(newValue: number, timestamp?: number) {

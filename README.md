@@ -9,7 +9,11 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - Automatically registers new account if username available
 - Saves username, token, and net worth history locally (page must be active to populate net worth history automatically)
 - Plots Credits over Time (5 minute logging intervals)
-- Provides an overview of all ships in player fleet, including their stats and location/flight plan
+- `abbrNum` pipe shows numbers in an easy to read format, falls back to scientific notation for numbers above 999.99b (see credits)
+- Fleet Overview
+- - Ship Cards (Fleet List)
+- - - Show ship stats, location/flight plan & eta, and ship ID
+- - - - `ArrivalEta pipe` can be used to format a datetime string into an easy to read trip duration. Pass an update timer variable as an argument to have the ETA countdown refresh automatically
 
 ## Roadmap / TODO
 

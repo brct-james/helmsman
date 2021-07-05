@@ -39,7 +39,10 @@
           <p class="shipLocation">Location: {{ shipInfo.location }} ({{ shipInfo.x }},{{ shipInfo.y }})</p>
         </div>
         <div class="shipFlying" *ngIf="shipInfo.flightPlanId">
-          <p class="shipFlightPlan">Flight Plan: {{ shipInfo.flightPlanId }}</p>
+          <p class="shipFlightPlan">
+            Flight Plan: ({{ shipInfo.flightPlan.departure }} -> {{ shipInfo.flightPlan.destination }}: ETA
+            {{ shipInfo.flightPlan.arrivesAt | arrivalEta: tRemShipStatus }})
+          </p>
         </div>
       </div>
     </div>

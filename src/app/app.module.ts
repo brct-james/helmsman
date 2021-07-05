@@ -18,6 +18,7 @@ import { LoanAutomationComponent } from './loan-automation/loan-automation.compo
 import { ShipCardComponent } from './ship-card/ship-card.component';
 import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 import { AbbrNumPipe } from './abbr-num.pipe';
+import { ArrivalEtaPipe } from './arrival-eta.pipe';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AbbrNumPipe } from './abbr-num.pipe';
     ShipCardComponent,
     StructuresOverviewComponent,
     AbbrNumPipe,
+    ArrivalEtaPipe,
   ],
   imports: [BrowserModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot()],
   providers: [],

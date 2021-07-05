@@ -9,6 +9,7 @@ export class ShipCardComponent implements OnInit {
   constructor() {}
 
   @Input() shipInfo: any;
+  @Input() tRemShipStatus: any;
 
   ngOnInit(): void {}
 

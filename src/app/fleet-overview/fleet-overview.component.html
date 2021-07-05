@@ -2,5 +2,5 @@
 <p>Time remaining till next automatic fleet update: {{ timeRemainingGetFleetStatus }}s</p>
 <app-fleet-automation></app-fleet-automation>
 <div class="fleetCardsContainer">
-  <app-ship-card *ngFor="let ship of fleetArray" [shipInfo]="ship"></app-ship-card>
+  <app-ship-card *ngFor="let ship of fleetArray" [shipInfo]="ship" [tRemShipStatus]="timeRemainingGetFleetStatus"></app-ship-card>
 </div>
