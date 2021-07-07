@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 900 900" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Layer_x0020_1" transform="matrix(100,0,0,100,0,0.357388)">
+        <g transform="matrix(1.32154,0,0,1.32154,-1.11656,-1.77206)">
+            <path d="M4.25,8.146C4.25,8.146 6.032,7.335 6.463,6.621C6.999,5.734 7.466,2.466 7.466,2.466C7.466,2.466 6.432,2.272 5.938,2.098C5.402,1.91 4.25,1.338 4.25,1.338" style="fill:rgb(204,34,43);"/>
+        </g>
+        <g transform="matrix(1.32154,0,0,1.32154,-1.11656,-1.77206)">
+            <path d="M4.25,1.338C4.25,1.338 3.077,1.91 2.541,2.098C2.053,2.27 1.034,2.466 1.034,2.466C1.034,2.466 1.501,5.734 2.037,6.621C2.468,7.335 4.25,8.146 4.25,8.146" style="fill:rgb(221,50,59);"/>
+        </g>
+        <g transform="matrix(1.98672,0,0,2.64896,-1.69009,-8.79457)">
+            <text x="1.513px" y="5.881px" style="font-family:'ExpletusSans-SemiBold', 'Expletus Sans';font-weight:600;font-size:2.705px;fill:white;">H</text>
+        </g>
+        <g transform="matrix(1.326,0,0,1.768,3.00669,-6.31203)">
+            <text x="1.513px" y="5.881px" style="font-family:'ExpletusSans-SemiBold', 'Expletus Sans';font-weight:600;font-size:2.684px;fill:white;">m</text>
+        </g>
+    </g>
+</svg>
