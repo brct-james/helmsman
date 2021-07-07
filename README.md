@@ -1,6 +1,4 @@
-# Spaceboard
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
+# Helmsman
 
 This is a dashboard for the game [Space Traders](https://spacetraders.io), and is built on the [JS/TS SDK maintained by notVitaliy](https://github.com/notVitaliy/spacetraders-io)
 
@@ -12,8 +10,17 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - `abbrNum` pipe shows numbers in an easy to read format, falls back to scientific notation for numbers above 999.99b (see credits)
 - Fleet Overview
 - - Ship Cards (Fleet List)
-- - - Show ship stats, location/flight plan & eta, and ship ID
-- - - - `ArrivalEta pipe` can be used to format a datetime string into an easy to read trip duration. Pass an update timer variable as an argument to have the ETA countdown refresh automatically
+- - - Show manufacturer, ship stats (inc. inventory restrictions like on the tanker ship), location/flight plan & eta, and ship ID
+- - - - `ArrivalEta` pipe can be used to format a datetime string into an easy to read trip duration. Pass an update timer variable as an argument to have the ETA countdown refresh automatically
+
+## Changelog
+
+### v0.1.5
+
+- Renamed Spaceboard to Helmsman
+- Added changelog to readme ;)
+- Added ship-card manufacturer logo (inc. custom Tiddalik logo since there wasn't one in the awesome-spacetraders repo)
+- Added indicator for cargo hold restrictions (e.g. the tiddalik tanker ship can only carry fuel)
 
 ## Roadmap / TODO
 
@@ -21,7 +28,8 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - - Overview
 - - Automation (For entire fleet - per ship automation is handled by cards)
 - - \[Started] Cards
-- - - \[Done] Show ship innate stats, values like fuel and cargo, location, etc.
+- - - \[Done] Show manufacturer logo
+- - - \[Done] Show ship innate stats, values like fuel and cargo (plus any cargo restrictions), location, etc.
 - - - \[Done] Flight Plan should lookup start, dest, and eta from flight plan api
 - - - Auto-Update Toggle (Sync with settings page): cause won't necessarily always need to have the latest 10s update on the ships, useful for saving calls/bandwidth when it may only be desirable to req updates manually - also allow configuring the auto-update speed in settings (update method in interval service)
 - - - Badge Component (generic badge constructor for class, tags, type, etc.)
@@ -45,11 +53,13 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - Net Worth Chart MkII (migrate to interval service)
 - Re-evaluate ship card UI
 - See about changing how fleet-overview works so ship-card elements aren't regenerated every time shipInfo is refreshed (may not be feasible)
+- Add wireframe ship models to the ship card above/below manufacturer logo
 
 ## Related Projects
 
-- **\[Not-Started]** Starscript: A customizable automation script for SpaceTraders.io. Can use the same **Plans** as Spaceboard, and/or simply pass game data to/from custom functions. Can be optionally configured to sync **Plans** with Spaceboard.
-- **\[Not-Started]** Captains-log: A tool for automatic logging of longitudinal data for SpaceTraders.io. Integrates with Spaceboard by optionally exposing access to the logged data via API.
+- **\[Not-Started]** Starscript: A customizable automation script for SpaceTraders.io. Can use the same **Plans** as Helmsman, and/or simply pass game data to/from custom functions. Can be optionally configured to sync **Plans** with Helmsman.
+- **\[Not-Started]** Space-opera: Either a stand-alone or add-on script for Starscript and Captains-log that makes orchestrating a complex network of ships easier by providing tools for controlling interconnected layers of automation. For example, managing a merchant fleet of fighters/carriers, cargo haulers with different engine speeds, or using an autonomous refueling fleet to increase margins over having haulers buy over-priced fuel at trade destinations. Integrates with a Helmsman module.
+- **\[Not-Started]** Captains-log: A tool for automatic logging of longitudinal data for SpaceTraders.io. Integrates with Helmsman by optionally exposing access to the logged data via API.
 
 ---
 

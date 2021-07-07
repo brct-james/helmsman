@@ -1,3 +1,4 @@
+@import '../variables.sass'
 .shipCard
   display: flex
   flex-flow: column nowrap
@@ -5,6 +6,7 @@
   margin: 0.5em
   font-size: 12px
   min-width: 350px
+  min-height: 190px
 .shipCardHeader
   display: flex
   flex-flow: row nowrap
@@ -18,6 +20,7 @@
 .shipDetails
   display: flex
   flex-flow: row nowrap
+  flex-grow: 1
   .shipCardImages
     display: flex
     flex-flow: column nowrap
@@ -26,6 +29,9 @@
     margin: 0.25em 9
     padding: 0 0.5em
     border-right: 1px solid white
+    width: 150px
+    .shipManufacturerLogo
+      width: 90%
   .shipInformation
     display: flex
     flex-flow: column nowrap
@@ -39,6 +45,15 @@
       justify-content: center
       text-align: center
       margin: 0.5em 0.5em 0 0.5em
+      .restrictedGoods
+        color: $restricted-red
+        border-radius: 3px 3px 0 0
+        border-left: 2px solid $restricted-red
+        border-top: 2px solid $restricted-red
+        border-right: 2px solid $restricted-red
+        width: calc(100% - 10px)
+        padding: 2px 0 4px 0
+        font-weight: bold
       table
         border-collapse: collapse
       td

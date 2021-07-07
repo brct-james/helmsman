@@ -1,6 +1,6 @@
 {
-  "name": "spaceboard",
-  "version": "0.0.0",
+  "name": "helmsman",
+  "version": "0.1.5",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -17,6 +17,12 @@ export class ShipCardComponent implements OnInit {
     let res = cargo.filter((obj) => {
       return obj.good === 'FUEL';
     });
-    return res[0].quantity;
+    return res[0] ? res[0].quantity : 0;
+  }
+
+  getManufacturerLogoPath(manufacturer: string): string {
+    let res = 'assets/images/manufacturer_logos/';
+    res += manufacturer.toLowerCase() + '.svg';
+    return res;
   }
 }
