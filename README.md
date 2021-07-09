@@ -54,10 +54,11 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - Re-evaluate ship card UI
 - See about changing how fleet-overview works so ship-card elements aren't regenerated every time shipInfo is refreshed (may not be feasible)
 - Add wireframe ship models to the ship card above/below manufacturer logo
+- More charts per route (to track profitability, show # of ships on route, market value of route items at endpoints over time, etc.)
 
 ## Related Projects
 
-- **\[Not-Started]** Starscript: A customizable automation script for SpaceTraders.io. Can use the same **Plans** as Helmsman, and/or simply pass game data to/from custom functions. Can be optionally configured to sync **Plans** with Helmsman.
+- **\[Not-Started]** Starscript: A customizable automation script for SpaceTraders.io. Can use the same **Plans** as Helmsman, and/or simply pass game data to/from custom functions. Can be optionally configured to sync **Plans** with Helmsman. Customizable kill switch that can be configured for any number of conditions, by default will trigger if run out of credits & on a negative trajectory - or something like that.
 - **\[Not-Started]** Space-opera: Either a stand-alone or add-on script for Starscript and Captains-log that makes orchestrating a complex network of ships easier by providing tools for controlling interconnected layers of automation. For example, managing a merchant fleet of fighters/carriers, cargo haulers with different engine speeds, or using an autonomous refueling fleet to increase margins over having haulers buy over-priced fuel at trade destinations. Integrates with a Helmsman module.
 - **\[Not-Started]** Captains-log: A tool for automatic logging of longitudinal data for SpaceTraders.io. Integrates with Helmsman by optionally exposing access to the logged data via API.
 
