@@ -13,12 +13,16 @@ The current version of notVitaliy/spacetraders-io on npm is not correctly propag
 - Plots Credits over Time (5 minute logging intervals)
 - `abbrNum` pipe shows numbers in an easy to read format, falls back to scientific notation for numbers above 999.99b (see credits)
 - Fleet Overview
-- - Automatically refreshes fleet status, can be toggled off (can still be refreshed manually)
+- - Automatically refreshes fleet status, can be toggled off (can still be refreshed manually) or changed to a different interval
 - - Ship Cards (Fleet List)
 - - - Show manufacturer, ship stats (inc. inventory restrictions like on the tanker ship), location/flight plan & eta, and ship ID
 - - - - `ArrivalEta` pipe can be used to format a datetime string into an easy to read trip duration. Pass an update timer variable as an argument to have the ETA countdown refresh automatically
 
 ## Changelog
+
+### v0.1.8
+
+- Added badge component (generic badge constructor for ship class, tags, type, etc., also used for displaying resources [e.g. coins, ship count, struct count, etc.] in a convenient and visually pleasing manner)
 
 ### v0.1.7
 
@@ -45,18 +49,13 @@ The current version of notVitaliy/spacetraders-io on npm is not correctly propag
 
 ## Roadmap / TODO
 
-- Fleet Overview
-- - Overview
-- - Automation (For entire fleet - per ship automation is handled by cards)
+- \[Started] Fleet Overview
+- - \[Started] Overview
+- - \[Delayed] Automation (For entire fleet - per ship automation is handled by cards)
 - - \[Started] Cards
-- - - \[Done] Show manufacturer logo
-- - - \[Done] Show ship innate stats, values like fuel and cargo (plus any cargo restrictions), location, etc.
-- - - \[Done] Flight Plan should lookup start, dest, and eta from flight plan api
-- - - Auto-Update Toggle (Sync with settings page): cause won't necessarily always need to have the latest 10s update on the ships, useful for saving calls/bandwidth when it may only be desirable to req updates manually - also allow configuring the auto-update speed in settings (update method in interval service)
-- - - Badge Component (generic badge constructor for class, tags, type, etc.)
-- - - Individual Automation
-- - - Individual ship page with detailed cargo manifest and maybe even action log
-- - - \[Done] ShipStatus section should show the appropriate planet icon when docked (along with location x/y), appropriate ship flying gif when not (along with eta/start/dest)
+- - - \[Started] Badge Component (generic badge constructor for class, tags, type, etc.)
+- - - \[Delayed] Individual Automation
+- - - \[Delayed] Individual ship page with detailed cargo manifest and maybe even action log
 - Interval service should only run interval items if the current path is relevant (accInfo would be '/' scope, while allShips is '/f/') to save calls & bandwidth
 - \[Started: interval-service now supports countdowns] Display interval countdowns (for those using interval-service), allow manual refresh of account info
 - Placeholder/loading message while waiting for fleet list (ship-cards) to populate

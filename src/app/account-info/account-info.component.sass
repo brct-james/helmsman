@@ -1,19 +1,18 @@
 @import '../variables.sass'
-
-p
-   margin: 0 0 0.25em 0
-   padding: 0
-table
-    border-collapse: collapse
-td
-    border: 1px solid $sb-main
-    padding: 4px
-th
-    border: 1px solid $sb-main
-    padding: 4px
 #accountInfoContainer
+  display: flex
+  flex-flow: column nowrap
+  margin: 0 1em 0.25em 0
+  text-align: center
+  padding: 0.25em
+  border: 1px solid #ffffff
+  p
+    margin: 0 0 0.25em 0
+    padding: 0
+  .username
+    font-weight: bold
+    font-size: 1.5em
+    color: #ffffff
+  .resourceContainer
     display: flex
-    flex-direction: column
-    margin: 0 1em 0.25em 0
-    // height: 64px
-    text-align: center
+    flex-flow: row nowrap

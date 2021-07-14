@@ -1,25 +1,27 @@
 <div id="accountInfoContainer">
   <div>
-    <p><strong>Username:</strong> {{ username }}</p>
+    <p class="username">
+      {{ username }}
+    </p>
   </div>
-  <div>
-    <table>
-      <tr>
-        <th>Credits</th>
-        <th>Ships</th>
-        <th>Structures</th>
-      </tr>
-      <tr>
-        <td>
-          {{ credits | abbrNum }}
-        </td>
-        <td>
-          {{ shipCount }}
-        </td>
-        <td>
-          {{ structureCount }}
-        </td>
-      </tr>
-    </table>
+  <div class="resourceContainer">
+    <app-badge
+      [badgeTooltip]="'Credits'"
+      [badgeStyle]="{ color: '#ffffff', 'background-color': '#f1a709' }"
+      [badgeText]="credits | abbrNum"
+      [iconSrc]="'assets/images/badge_icons/credits.svg'"
+    ></app-badge>
+    <app-badge
+      [badgeTooltip]="'Ships'"
+      [badgeStyle]="{ color: '#ffffff', 'background-color': '#0981f1' }"
+      [badgeText]="shipCount | abbrNum"
+      [iconSrc]="'assets/images/badge_icons/ships.svg'"
+    ></app-badge>
+    <app-badge
+      [badgeTooltip]="'Structures'"
+      [badgeStyle]="{ color: '#ffffff', 'background-color': '#28c71a' }"
+      [badgeText]="structureCount | abbrNum"
+      [iconSrc]="'assets/images/badge_icons/structures.svg'"
+    ></app-badge>
   </div>
 </div>

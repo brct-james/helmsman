@@ -26,6 +26,7 @@ import { ShipCardComponent } from './ship-card/ship-card.component';
 import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 import { LoginComponent } from './login/login.component';
 import { FleetSettingsComponent } from './settings/fleet-settings/fleet-settings.component';
+import { BadgeComponent } from './badge/badge.component';
 
 const MaterialComponents = [MatSlideToggleModule, MatInputModule];
 
@@ -48,6 +49,7 @@ const MaterialComponents = [MatSlideToggleModule, MatInputModule];
     ArrivalEtaPipe,
     LoginComponent,
     FleetSettingsComponent,
+    BadgeComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot(), BrowserAnimationsModule, MaterialComponents],
   providers: [AbbrNumPipe],
