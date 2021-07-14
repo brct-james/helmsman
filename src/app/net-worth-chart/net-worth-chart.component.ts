@@ -3,6 +3,7 @@ import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color } from 'ng2-charts';
 import { ApiService } from '../api.service';
 import { BaseChartDirective } from 'ng2-charts';
+import { AbbrNumPipe } from '../abbr-num.pipe';
 
 @Component({
   selector: 'app-net-worth-chart',
@@ -33,6 +34,9 @@ export class NetWorthChartComponent implements OnInit {
           gridLines: { color: '#c7c7c7' },
           ticks: {
             fontColor: '#ffffff',
+            callback: function (value, index, ticks) {
+              return '$' + this.abbrNumPipe.transform(value);
+            }.bind(this),
           },
         },
       ],
@@ -53,7 +57,7 @@ export class NetWorthChartComponent implements OnInit {
   public lineChartType = 'line';
   public lineChartPlugins = [];
 
-  constructor(public st: ApiService) {}
+  constructor(public st: ApiService, private abbrNumPipe: AbbrNumPipe) {}
 
   ngOnInit(): void {
     this.updateChart(true);

@@ -42,7 +42,7 @@ import { LoginComponent } from './login/login.component';
     LoginComponent,
   ],
   imports: [BrowserModule, FormsModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot()],
-  providers: [],
+  providers: [AbbrNumPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

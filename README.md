@@ -52,6 +52,7 @@ The current version of notVitaliy/spacetraders-io on npm is not correctly propag
 - Ship nicknaming & tagging (use ship ID, join with local object containing name and tag array) - will need to change shipName to input tag, add shipType
 - Fleet search, sort, filter based on name/tags, as well as ship info like class/type/speed/weapons/etc.
 - Add setting for auto-changing fleet-overview layout at certain # of ships (from showing all to showing summaries by tag or maybe other configurable layouts... - add /f/all-ships)
+- Convert net worth chart x labels to use tick override given timestamps rather than giving literal strings
 - Net Worth chart will have different time scale and interval presets for visualization (30 min/5 min, 3 hr/30 min, 1 day/4 hr, etc.)
 - Net Worth chart will be expanded to separately display liquid credits, assets (bank tab will also feature sub-categorization of ship value, cargo, structures, etc.) debt, and actual calculated net worth. These would be togglable in the visualization.
 - Numeric values for each net worth stat next to chart in a neat table
