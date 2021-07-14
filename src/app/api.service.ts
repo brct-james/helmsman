@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { SpaceTraders } from 'spacetraders-sdk';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Router } from '@angular/router';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Injectable({
   providedIn: 'root',

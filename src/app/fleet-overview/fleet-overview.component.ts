@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
 import { IntervalService } from '../interval.service';
+import { SettingService } from '../setting.service';
 
 @Component({
   selector: 'app-fleet-overview',
@@ -13,7 +14,7 @@ export class FleetOverviewComponent implements OnInit {
   */
 
   fleetArray: any[] = [];
-  constructor(public api: ApiService, public intervals: IntervalService) {}
+  constructor(public api: ApiService, public intervals: IntervalService, private settings: SettingService) {}
 
   get timeRemainingGetFleetStatus() {
     if (this.intervals.timeRemainingTillCall['getFleetStatus'] === undefined) {
@@ -23,7 +24,7 @@ export class FleetOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.intervals.new('getFleetStatus', this.updateFleetInfo.bind(this), 10 * 1000);
+    this.intervals.new('getFleetStatus', this.updateFleetInfo.bind(this), 10 * 1000, this.settings.fleetUpdateToggle);
     this.updateFleetInfo();
   }
 

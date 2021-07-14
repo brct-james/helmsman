@@ -19,6 +19,14 @@ The current version of notVitaliy/spacetraders-io on npm is not correctly propag
 
 ## Changelog
 
+### v0.1.7
+
+- Added `@angular/material`
+- Added logic for disabling intervals in `interval-service`
+- Added `settings-service` to handle app-wide settings
+- Added slider toggle for fleet refresh in settings & fleet-overview
+- NavBar now hides on login page (when not logged in)
+
 ### v0.1.6
 
 - Added login page, logic for handling user session
@@ -67,6 +75,7 @@ The current version of notVitaliy/spacetraders-io on npm is not correctly propag
 - More charts per route (to track profitability, show # of ships on route, market value of route items at endpoints over time, etc.)
 - Catch errors in API
 - Button for log out
+- Migrate to ngx-webstorage's `.observe` method where sensible
 
 ## Related Projects
 

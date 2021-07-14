@@ -3,8 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { NgxWebstorageModule } from 'ngx-webstorage';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+import { AbbrNumPipe } from './abbr-num.pipe';
+import { ArrivalEtaPipe } from './arrival-eta.pipe';
+
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FleetOverviewComponent } from './fleet-overview/fleet-overview.component';
@@ -18,9 +23,10 @@ import { ShipAutomationControlsComponent } from './ship-automation-controls/ship
 import { LoanAutomationComponent } from './loan-automation/loan-automation.component';
 import { ShipCardComponent } from './ship-card/ship-card.component';
 import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
-import { AbbrNumPipe } from './abbr-num.pipe';
-import { ArrivalEtaPipe } from './arrival-eta.pipe';
 import { LoginComponent } from './login/login.component';
+import { FleetSettingsComponent } from './settings/fleet-settings/fleet-settings.component';
+
+const MaterialComponents = [MatSlideToggleModule];
 
 @NgModule({
   declarations: [
@@ -40,8 +46,9 @@ import { LoginComponent } from './login/login.component';
     AbbrNumPipe,
     ArrivalEtaPipe,
     LoginComponent,
+    FleetSettingsComponent,
   ],
-  imports: [BrowserModule, FormsModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot()],
+  imports: [BrowserModule, FormsModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot(), BrowserAnimationsModule, MaterialComponents],
   providers: [AbbrNumPipe],
   bootstrap: [AppComponent],
 })

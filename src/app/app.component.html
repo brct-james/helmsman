@@ -8,7 +8,7 @@
   </div>
   <div class="navGroup">
     <app-account-info></app-account-info>
-    <div class="navLinks">
+    <div class="navLinks" *ngIf="this.api.haveSession">
       <a id="dashLink" routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">Dashboard </a>
       <a id="bankLink" routerLink="/b" [routerLinkActive]="['active']">Bank</a>
       <a id="fleetLink" routerLink="/f" [routerLinkActive]="['active']">Fleet</a>

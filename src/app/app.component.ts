@@ -9,7 +9,7 @@ import { ApiService } from './api.service';
 export class AppComponent {
   title = 'Spaceboard';
 
-  constructor(public st: ApiService) {}
+  constructor(public api: ApiService) {}
 
   ngOnInit(): void {}
 }
