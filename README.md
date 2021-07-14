@@ -2,6 +2,10 @@
 
 This is a dashboard for the game [Space Traders](https://spacetraders.io), and is built on the [JS/TS SDK maintained by notVitaliy](https://github.com/notVitaliy/spacetraders-io)
 
+## Notice
+
+The current version of notVitaliy/spacetraders-io on npm is not correctly propagating errors when registering an account. Please see the following PR for the fix until it is patched (not critical to functionality, only relevant to displaying the issue on the login screen).
+
 ## Features
 
 - Automatically registers new account if username available
@@ -14,6 +18,12 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - - - - `ArrivalEta` pipe can be used to format a datetime string into an easy to read trip duration. Pass an update timer variable as an argument to have the ETA countdown refresh automatically
 
 ## Changelog
+
+### v0.1.6
+
+- Added login page, logic for handling user session
+- AbbrNum pipe now handles unexpected input better
+- Changed error messages in account-info.ts
 
 ### v0.1.5
 
@@ -39,7 +49,6 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - Interval service should only run interval items if the current path is relevant (accInfo would be '/' scope, while allShips is '/f/') to save calls & bandwidth
 - \[Started: interval-service now supports countdowns] Display interval countdowns (for those using interval-service), allow manual refresh of account info
 - Placeholder/loading message while waiting for fleet list (ship-cards) to populate
-- Login Page, force redirect here until suceeed login (tries cached credentials before redirect)
 - Ship nicknaming & tagging (use ship ID, join with local object containing name and tag array) - will need to change shipName to input tag, add shipType
 - Fleet search, sort, filter based on name/tags, as well as ship info like class/type/speed/weapons/etc.
 - Add setting for auto-changing fleet-overview layout at certain # of ships (from showing all to showing summaries by tag or maybe other configurable layouts... - add /f/all-ships)
@@ -55,6 +64,8 @@ This is a dashboard for the game [Space Traders](https://spacetraders.io), and i
 - See about changing how fleet-overview works so ship-card elements aren't regenerated every time shipInfo is refreshed (may not be feasible)
 - Add wireframe ship models to the ship card above/below manufacturer logo
 - More charts per route (to track profitability, show # of ships on route, market value of route items at endpoints over time, etc.)
+- Catch errors in API
+- Button for log out
 
 ## Related Projects
 

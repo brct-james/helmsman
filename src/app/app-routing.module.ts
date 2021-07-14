@@ -5,10 +5,12 @@ import { FleetOverviewComponent } from './fleet-overview/fleet-overview.componen
 import { BankOverviewComponent } from './bank-overview/bank-overview.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'f', redirectTo: 'f/overview', pathMatch: 'full' },
   { path: 'f', children: [{ path: 'overview', component: FleetOverviewComponent }] },
   { path: 'b', redirectTo: 'b/overview', pathMatch: 'full' },

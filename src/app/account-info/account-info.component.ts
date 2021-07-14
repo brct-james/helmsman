@@ -7,42 +7,27 @@ import { ApiService } from '../api.service';
   styleUrls: ['./account-info.component.sass'],
 })
 export class AccountInfoComponent implements OnInit {
-  constructor(public st: ApiService) {}
+  constructor(public api: ApiService) {}
 
   ngOnInit(): void {}
 
   get username(): string {
-    // return this.st.accountInfo === undefined
-    //     ? '[Error] Could not get account info!'
-    //     : this.st.accountInfo.username;
-    return this.st.retrieveLocally('userInfo') === null ? '[Error] Could not get user info!' : this.st.retrieveLocally('userInfo').username;
+    return this.api.retrieveLocally('userInfo') === null ? '[None]' : this.api.retrieveLocally('userInfo').username;
   }
 
   get token(): string {
-    // return this.st.userToken || '[Error] Could not get userToken!';
-    return this.st.retrieveLocally('userInfo') === null ? '[Error] Could not get user info!' : this.st.retrieveLocally('userInfo').userToken;
+    return this.api.retrieveLocally('userInfo') === null ? '[None]' : this.api.retrieveLocally('userInfo').userToken;
   }
 
   get credits(): number {
-    // return this.st.accountInfo === undefined
-    //     ? '[Error] Could not get account info!'
-    //     : this.st.accountInfo.credits;
-    return this.st.retrieveLocally('accountInfo') === null ? '[Error] Could not get user info!' : this.st.retrieveLocally('accountInfo').credits;
+    return this.api.retrieveLocally('accountInfo') === null ? '[None]' : this.api.retrieveLocally('accountInfo').credits;
   }
 
   get shipCount(): number {
-    // return this.st.accountInfo === undefined
-    //     ? '[Error] Could not get account info!'
-    //     : this.st.accountInfo.shipCount;
-    return this.st.retrieveLocally('accountInfo') === null ? '[Error] Could not get user info!' : this.st.retrieveLocally('accountInfo').shipCount;
+    return this.api.retrieveLocally('accountInfo') === null ? '[None]' : this.api.retrieveLocally('accountInfo').shipCount;
   }
 
   get structureCount(): number {
-    // return this.st.accountInfo === undefined
-    //     ? '[Error] Could not get account info!'
-    //     : this.st.accountInfo.structureCount;
-    return this.st.retrieveLocally('accountInfo') === null
-      ? '[Error] Could not get user info!'
-      : this.st.retrieveLocally('accountInfo').structureCount;
+    return this.api.retrieveLocally('accountInfo') === null ? '[None]' : this.api.retrieveLocally('accountInfo').structureCount;
   }
 }

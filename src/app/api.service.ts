@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SpaceTraders } from 'spacetraders-sdk';
 import { LocalStorageService } from 'ngx-webstorage';
+import { Router } from '@angular/router';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,7 @@ export class ApiService {
   haveSession: boolean = false;
   DEBUG = false;
 
-  constructor(private ls: LocalStorageService) {
+  constructor(private ls: LocalStorageService, private router: Router) {
     this.api = new SpaceTraders({ useSharedLimiter: true }, { maxConcurrent: 2, minTime: 500 });
 
     setInterval(this.handleInterval.bind(this), 5000);
@@ -47,21 +49,39 @@ export class ApiService {
       //no session saved, request user credentials
       //temporarily hardcoding these creds
       this.DEBUG && console.log('[api-service] No credentials found locally, requesting new credentials from user');
-      this.login('Greenitthe', 'c8283f54-c08f-4773-8c40-fc99b0071a19');
+      this.router.navigate(['/login']);
     }
   }
 
-  login(username: string, token?: string) {
+  login(username: string, token?: string, callback?: any): string {
+    let message = '';
+    let loginSuccess = false;
     this.DEBUG && console.log('[api-service] Attempting login with:', username, '| token:', token);
-    this.api.init(username, token).then((token: any) => {
-      this.storeLocally('userInfo', {
-        username: username,
-        userToken: token,
+    this.api
+      .init(username, token)
+      .then((token: any) => {
+        if (token) {
+          loginSuccess = true;
+          this.storeLocally('userInfo', {
+            username: username,
+            userToken: token,
+          });
+          //After login cache user info, then request basic account info from api
+          this.DEBUG &&
+            console.log('[api-service] Have session now true, timeout interval will begin ticking, entries will populate at 5 minute marks');
+          this.haveSession = true;
+          message = 'Credentials accepted, redirecting...';
+        } else {
+          message = 'Error while attempting login. Username may be taken or login token incorrect.';
+        }
+        callback && callback(loginSuccess, message);
+      })
+      .catch((e) => {
+        message = 'Error while attempting login. Username may be taken or login token incorrect.';
+        callback && callback(loginSuccess, message);
+        this.DEBUG && console.log('[api-service] Error while attempting login:', e);
       });
-      //After login cache user info, then request basic account info from api
-      this.DEBUG && console.log('[api-service] Have session now true, timeout interval will begin ticking, entries will populate at 5 minute marks');
-      this.haveSession = true;
-    });
+    return message;
   }
 
   getAccountInfo() {

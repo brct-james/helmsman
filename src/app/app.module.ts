@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 
@@ -19,6 +20,7 @@ import { ShipCardComponent } from './ship-card/ship-card.component';
 import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 import { AbbrNumPipe } from './abbr-num.pipe';
 import { ArrivalEtaPipe } from './arrival-eta.pipe';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -37,8 +39,9 @@ import { ArrivalEtaPipe } from './arrival-eta.pipe';
     StructuresOverviewComponent,
     AbbrNumPipe,
     ArrivalEtaPipe,
+    LoginComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot()],
+  imports: [BrowserModule, FormsModule, AppRoutingModule, ChartsModule, NgxWebstorageModule.forRoot()],
   providers: [],
   bootstrap: [AppComponent],
 })
