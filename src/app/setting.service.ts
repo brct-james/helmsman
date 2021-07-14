@@ -7,7 +7,10 @@ import { LocalStorageService } from 'ngx-webstorage';
 })
 export class SettingService {
   activeSettings = {
-    getFleetStatus: true,
+    getFleetStatus: {
+      enabled: true,
+      interval: 10,
+    },
   };
   DEBUG = false;
   constructor(private ls: LocalStorageService) {
@@ -15,10 +18,18 @@ export class SettingService {
   }
 
   get fleetUpdateToggle() {
-    return this.activeSettings.getFleetStatus;
+    return this.activeSettings.getFleetStatus.enabled;
   }
   set fleetUpdateToggle(status: boolean) {
-    this.activeSettings.getFleetStatus = status;
+    this.activeSettings.getFleetStatus.enabled = status;
+    this.storeSettings(this.activeSettings);
+  }
+
+  get fleetUpdateInterval() {
+    return this.activeSettings.getFleetStatus.interval;
+  }
+  set fleetUpdateInterval(interval: number) {
+    this.activeSettings.getFleetStatus.interval = interval;
     this.storeSettings(this.activeSettings);
   }
 

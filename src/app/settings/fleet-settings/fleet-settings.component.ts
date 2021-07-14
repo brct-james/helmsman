@@ -9,11 +9,13 @@ import { SettingService } from '../../setting.service';
 })
 export class FleetSettingsComponent implements OnInit {
   fleetUpdateToggle: boolean = true;
+  fleetUpdateInterval: number = 10;
 
   constructor(private settings: SettingService, private intervals: IntervalService) {}
 
   ngOnInit(): void {
     this.fleetUpdateToggle = this.settings.fleetUpdateToggle;
+    this.fleetUpdateInterval = this.settings.fleetUpdateInterval;
 
     //Subscribe to this value so all settings pages are synchronized no matter what
     //Disabled as I'm not convinced I'm supporting use cases where this matters
@@ -26,8 +28,12 @@ export class FleetSettingsComponent implements OnInit {
     // );
   }
 
-  fleetUpdateChanged() {
+  fleetUpdateToggleChanged() {
     this.settings.fleetUpdateToggle = this.fleetUpdateToggle;
     this.intervals.toggleInterval('getFleetStatus', this.fleetUpdateToggle);
+  }
+  fleetUpdateIntervalChanged() {
+    this.settings.fleetUpdateInterval = this.fleetUpdateInterval;
+    this.intervals.updateInterval('getFleetStatus', this.fleetUpdateInterval);
   }
 }

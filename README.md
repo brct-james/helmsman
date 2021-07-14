@@ -13,6 +13,7 @@ The current version of notVitaliy/spacetraders-io on npm is not correctly propag
 - Plots Credits over Time (5 minute logging intervals)
 - `abbrNum` pipe shows numbers in an easy to read format, falls back to scientific notation for numbers above 999.99b (see credits)
 - Fleet Overview
+- - Automatically refreshes fleet status, can be toggled off (can still be refreshed manually)
 - - Ship Cards (Fleet List)
 - - - Show manufacturer, ship stats (inc. inventory restrictions like on the tanker ship), location/flight plan & eta, and ship ID
 - - - - `ArrivalEta` pipe can be used to format a datetime string into an easy to read trip duration. Pass an update timer variable as an argument to have the ETA countdown refresh automatically
@@ -26,6 +27,8 @@ The current version of notVitaliy/spacetraders-io on npm is not correctly propag
 - Added `settings-service` to handle app-wide settings
 - Added slider toggle for fleet refresh in settings & fleet-overview
 - NavBar now hides on login page (when not logged in)
+- Added 1em margin around main content
+- Added fleet update interval setting
 
 ### v0.1.6
 

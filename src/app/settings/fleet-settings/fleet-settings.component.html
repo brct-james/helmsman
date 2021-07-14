@@ -1,1 +1,13 @@
-<mat-slide-toggle [(ngModel)]="fleetUpdateToggle" (change)="fleetUpdateChanged()">Automatically update fleet-overview</mat-slide-toggle>
+<div class="settingsBlock" id="fleetSettings">
+  <h2>Fleet Settings</h2>
+  <div class="settingsSection">
+    <p>
+      <mat-slide-toggle [(ngModel)]="fleetUpdateToggle" (change)="fleetUpdateToggleChanged()">Automatically update fleet-overview</mat-slide-toggle>
+    </p>
+    <p *ngIf="fleetUpdateToggle">
+      Fleet Update Interval (seconds):
+      <input matInput type="number" min="1" step="1" value="10" [(ngModel)]="fleetUpdateInterval" />
+      <button (click)="fleetUpdateIntervalChanged()">Set Interval</button>
+    </p>
+  </div>
+</div>

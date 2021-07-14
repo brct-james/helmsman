@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { SettingService } from './setting.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,7 @@ export class IntervalService {
   //Interval Service minimum interval is 1000ms/1s
   tickRate = 1000;
 
-  constructor(private settings: SettingService) {
+  constructor() {
     setInterval(this.callIntervals.bind(this), this.tickRate);
   }
 
@@ -43,6 +42,19 @@ export class IntervalService {
     this.intervals = [];
   }
 
+  updateInterval(name: string, newTiming: number) {
+    console.log('UI');
+    let interval = this.findByName(name, this.intervals);
+    console.log(interval);
+    if (interval !== undefined && newTiming > 0) {
+      console.log('TRUE');
+      interval.interval = Math.trunc(newTiming) * 1000;
+    } else {
+      this.DEBUG && console.log('[interval-service] Attempted to update interval', name, 'but could not find or newTiming <= 0.');
+    }
+    console.log(interval);
+  }
+
   calcTimeRemaining(target: any): number {
     let now = Date.now();
     let res = target.interval - (now - target.lastCalled);
@@ -60,8 +72,12 @@ export class IntervalService {
 
   toggleInterval(name: string, status?: boolean): void {
     let interval = this.findByName(name, this.intervals);
-    status = status === undefined ? !interval.enabled : status;
-    interval.enabled = status;
+    if (interval !== undefined) {
+      status = status === undefined ? !interval.enabled : status;
+      interval.enabled = status;
+    } else {
+      this.DEBUG && console.log('[interval-service] Attempted to toggle interval', name, 'but could not find it.');
+    }
   }
 
   callIntervals() {

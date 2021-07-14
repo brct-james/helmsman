@@ -24,7 +24,7 @@ export class FleetOverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.intervals.new('getFleetStatus', this.updateFleetInfo.bind(this), 10 * 1000, this.settings.fleetUpdateToggle);
+    this.intervals.new('getFleetStatus', this.updateFleetInfo.bind(this), this.settings.fleetUpdateInterval * 1000, this.settings.fleetUpdateToggle);
     this.updateFleetInfo();
   }
 

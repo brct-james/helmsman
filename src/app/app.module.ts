@@ -6,6 +6,7 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatInputModule } from '@angular/material/input';
 
 import { AbbrNumPipe } from './abbr-num.pipe';
 import { ArrivalEtaPipe } from './arrival-eta.pipe';
@@ -26,7 +27,7 @@ import { StructuresOverviewComponent } from './structures-overview/structures-ov
 import { LoginComponent } from './login/login.component';
 import { FleetSettingsComponent } from './settings/fleet-settings/fleet-settings.component';
 
-const MaterialComponents = [MatSlideToggleModule];
+const MaterialComponents = [MatSlideToggleModule, MatInputModule];
 
 @NgModule({
   declarations: [
