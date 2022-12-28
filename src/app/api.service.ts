@@ -49,7 +49,7 @@ export class ApiService {
     }
   }
 
-  login(username: string, token?: string, callback?: any): string {
+  login(username: string, token?: string): string {
     let message = '';
     let loginSuccess = false;
     this.DEBUG && console.log('[api-service] Attempting login with:', username, '| token:', token);
@@ -71,6 +71,7 @@ export class ApiService {
       userToken: token,
     });
     this.haveSession = true;
+    this.router.navigate(['/settings']);
     return message;
   }
     // TODO: Finish updating - need to .then on above

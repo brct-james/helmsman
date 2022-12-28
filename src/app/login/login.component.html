@@ -1,1 +1,15 @@
-<p>login works!</p>
+<div id="login">
+    <p id="loginInstructions">
+      Please enter your desired username. If you have already registered an account this wipe, please also enter your account token. Otherwise one will
+      be generated for you.
+    </p>
+    <form id="loginForm" #loginForm="ngForm">
+      <label for="username">Username:</label><br />
+      <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Enter Username" required /><br />
+      <label for="token">Token:</label><br />
+      <input type="text" id="token" name="token" [(ngModel)]="token" placeholder="(Optional) Enter Token" /><br />
+      <input type="button" value="Login" (click)="attemptLogin()" />
+    </form>
+    <p id="message" class="importantText">{{ message }}</p>
+</div>
+  
