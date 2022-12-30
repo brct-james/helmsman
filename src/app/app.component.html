@@ -1,13 +1,32 @@
 <nav>
-  <a class="navItem" *ngIf="this.api.haveSession" id="dashLink" routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+  <a
+    class="navItem"
+    *ngIf="this.api.haveSession"
+    id="dashLink"
+    routerLink="/"
+    [routerLinkActive]="['active']"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
     <i class="fas fa-tachometer-alt"></i>
     <span>Dashboard</span>
   </a>
-  <a class="navItem" *ngIf="this.api.haveSession" id="bankLink" routerLink="/b" [routerLinkActive]="['active']">
+  <a
+    class="navItem"
+    *ngIf="this.api.haveSession"
+    id="bankLink"
+    routerLink="/b"
+    [routerLinkActive]="['active']"
+  >
     <img src="assets/images/badge_icons/credits.svg" />
     <span>Bank</span>
   </a>
-  <a class="navItem" *ngIf="this.api.haveSession" id="fleetLink" routerLink="/f" [routerLinkActive]="['active']">
+  <a
+    class="navItem"
+    *ngIf="this.api.haveSession"
+    id="fleetLink"
+    routerLink="/f"
+    [routerLinkActive]="['active']"
+  >
     <img src="assets/images/badge_icons/ships.svg" />
     <span>Fleet</span>
   </a>
@@ -15,15 +34,33 @@
     <img src="assets/images/helmsman_logo_thicc.svg" />
     <span id="usernameHeader">{{ username }}</span>
   </div>
-  <a class="navItem" *ngIf="this.api.haveSession" id="structuresLink" routerLink="/s" [routerLinkActive]="['active']">
-    <img src="assets/images/badge_icons/structures.svg" />
-    <span>Structures</span>
+  <a
+    class="navItem"
+    *ngIf="this.api.haveSession"
+    id="starmapLink"
+    routerLink="/s"
+    [routerLinkActive]="['active']"
+  >
+    <i class="fas fa-sun"></i>
+    <span>Starmap</span>
   </a>
-  <a class="navItem" *ngIf="this.api.haveSession"  id="settingsLink" routerLink="/settings" [routerLinkActive]="['active']">
+  <a
+    class="navItem"
+    *ngIf="this.api.haveSession"
+    id="settingsLink"
+    routerLink="/settings"
+    [routerLinkActive]="['active']"
+  >
     <i class="fas fa-cog"></i>
     <span>Settings</span>
   </a>
-  <a class="navItem" *ngIf="this.api.haveSession" id="githubLink" href="https://github.com/brct-james/helmsman" target="_blank">
+  <a
+    class="navItem"
+    *ngIf="this.api.haveSession"
+    id="githubLink"
+    href="https://github.com/brct-james/helmsman"
+    target="_blank"
+  >
     <i class="fas fa-external-link-alt"></i>
     <span>Github</span>
   </a>

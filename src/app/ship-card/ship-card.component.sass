@@ -1,0 +1,116 @@
+@import '../variables.sass'
+.shipCard
+  display: flex
+  flex-flow: column nowrap
+  border: 1px solid white
+  margin: 0.5em
+  font-size: 14px
+  min-height: 190px
+  width: $ship-card-width
+.shipCardHeader
+  display: flex
+  flex-flow: row nowrap
+  border-bottom: 1px solid white
+  padding: 0.25em 0
+  p
+    margin: 0 0.5em
+  .shipTagsList
+    display: flex
+    flex-flow: row nowrap
+.shipDetails
+  display: flex
+  flex-flow: row nowrap
+  flex-grow: 1
+  .cargo
+    display: flex
+    flex-flow: column nowrap
+    align-items: flex-start
+    justify-content: flex-start
+    border-right: 1px solid white
+    width: $cargo-width
+    .cargoheader
+      display: flex
+      flex-flow: row nowrap
+      align-items: center
+      justify-content: center
+      font-weight: 700
+      padding: 0.5em
+      border-bottom: 1px solid white
+      width: calc(100% - 1em)
+    .cargocap
+      font-weight: 500
+      margin: 0 0 0 0.5em
+    .inventory
+      display: flex
+      flex-flow: column nowrap
+      align-items: flex-start
+      justify-content: flex-start
+      overflow: hidden
+      width: 100%
+      .good
+        margin: 0
+        width: 100%
+        border-bottom: 1px dashed white
+        .goodUnits
+          display: inline-block
+          padding: 0.25em 0.5em 0.25em 0.25em
+          margin: 0 0.5em 0 0
+          border-right: 1px solid white
+  .shipControls
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    gap: 0px
+    width: calc($ship-card-width - $cargo-width - 1px)
+    .shipControl
+      display: flex
+      flex-flow: column nowrap
+      align-items: center
+      &:first-child
+        border-right: 1px solid white
+      &:last-child
+        border-left: 1px solid white
+      .controlHeader
+        border-bottom: 1px solid white
+        padding: 0.25em 0
+        text-align: center
+        font-weight: 600
+        width: 100%
+    .shipMovementControls
+      grid-column: 1
+    .shipModuleControls
+      grid-column: 2
+    .shipCargoControls
+      grid-column: 3
+.shipCardFooter
+  display: flex
+  flex-flow: row nowrap
+  justify-content: space-between
+  align-items: center
+  border-top: 1px solid white
+  font-size: 12px
+  font-weight: 600
+  .shipFuelAnti
+    border-right: 1px solid white
+    padding: 0.25em 0
+    font-size: 14px
+    .shipFuelAntiLable
+      padding: 0 0.5em 0 0.5em
+      border-right: 1px solid white
+    .fuelStat
+      padding: 0 0.5em 0 0.5em
+      border-right: 1px solid white
+    .antimatterStat
+      padding: 0 0.5em
+  .shipFlightStatus
+    display: flex
+    flex-flow: column nowrap
+    text-align: center
+    .shipDockedOrOrbiting
+      .shipLocation
+        padding: 0.5em
+      .coords
+        font-size: 16px
+        padding: 0.25em 0.5em 0.25em 0.5em
+        border-left: 1px solid white
+    .shipFlying
+      margin: 0.5em

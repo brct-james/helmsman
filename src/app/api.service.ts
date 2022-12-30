@@ -41,7 +41,7 @@ export class ApiService {
     if (localCredentials) {
       //saved session, attempt login with same
       this.DEBUG && console.log('[api-service] Credentials found for:', localCredentials.username);
-      this.login(localCredentials.userToken);
+      this.login(localCredentials.userToken, true);
     } else {
       //no session saved, request user credentials
       //temporarily hardcoding these creds
@@ -88,7 +88,7 @@ export class ApiService {
           this.storeLocally('contracts', {
             contracts: [data.contract]
           });
-          this.storeLocally('ships', {
+          this.storeLocally('fleet', {
             ships: [data.ship]
           });
           // this.clipboard.copy(data.token);
@@ -102,7 +102,7 @@ export class ApiService {
     });
   }
 
-  async login(token: string): Promise<string> {
+  async login(token: string, skipRedirect=false): Promise<string> {
     let message: string;
     this.DEBUG && console.log('[api-service] Attempting login with token:', token);
     this.agentsService.configuration.credentials['AgentToken'] = token;
@@ -146,7 +146,7 @@ export class ApiService {
       this.fleetService.getMyShips().subscribe((response) => {
         if (response != undefined) {
           let data = response.data;
-          this.storeLocally('ships', {
+          this.storeLocally('fleet', {
             ships: data
           });
           resolve(true);
@@ -159,7 +159,9 @@ export class ApiService {
     if (agentResolution && contractsResolution && fleetResolution) {
       return new Promise((resolve, reject) => {
         this.haveSession = true;
-        this.router.navigate(['/settings']);
+        if (!skipRedirect) {
+          this.router.navigate(['/settings']);
+        }
         // this.clipboard.copy(token);
         resolve(token);
       })
@@ -169,12 +171,24 @@ export class ApiService {
     });
   }
 
-//   getAccountInfo() {
-//     this.api.getAccount().then((res: any) => {
-//       this.storeLocally('accountInfo', res.user);
-//       this.DEBUG && console.log('[api-service] Got accountInfo:', res.user);
-//     });
-//   }
+  async getAccountInfo() {
+    await new Promise((resolve, reject) => {
+      this.agentsService.getMyAgent().subscribe((response) => {
+        if (response != undefined) {
+          let data = response.data;
+          this.storeLocally('agentInfo', {
+            accountId: data.accountId,
+            credits: data.credits,
+            headquarters: data.headquarters,
+            symbol: data.symbol
+          });
+          resolve(true);
+        } else {
+          reject("Response undefined");
+        }
+      });
+    });
+  }
 
 //   getAccountInfoAndPushNW() {
 //     this.api.getAccount().then((res: any) => {
@@ -184,12 +198,21 @@ export class ApiService {
 //     });
 //   }
 
-//   getAllShips(callback: Function) {
-//     this.api.getShips().then((res: any) => {
-//       this.DEBUG && console.log('[api-service] Got all ships info, attempting to get flight plans');
-//       this.getAndMergeFlightPlans(res.ships, callback);
-//     });
-//   }
+  async getAllShips() {
+    await new Promise((resolve, reject) => {
+      this.fleetService.getMyShips().subscribe((response) => {
+        if (response != undefined) {
+          let data = response.data;
+          this.storeLocally('fleet', {
+            ships: data
+          });
+          resolve(true);
+        } else {
+          reject("Response undefined");
+        }
+      });
+    });
+  }
 
 //   getAndMergeFlightPlans(ships: any, callback: Function) {
 //     //Currently only gets OE system flight plans - will need to expand functionality later and either query for each flightId in ships arr or for each system...

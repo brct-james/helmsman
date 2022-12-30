@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { ApiModule, Configuration, ConfigurationParameters } from 'spacetraders-v2-ng';
+import {
+  ApiModule,
+  Configuration,
+  ConfigurationParameters,
+} from 'spacetraders-v2-ng';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -13,15 +17,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FleetOverviewComponent } from './fleet-overview/fleet-overview.component';
 import { BankOverviewComponent } from './bank-overview/bank-overview.component';
 import { SettingsComponent } from './settings/settings.component';
-import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 import { LoginComponent } from './login/login.component';
 import { FleetSettingsComponent } from './settings/fleet-settings/fleet-settings.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ShipCardComponent } from './ship-card/ship-card.component';
+import { ArrivalEtaPipe } from './arrival-eta.pipe';
+import { FleetAutomationComponent } from './fleet-automation/fleet-automation.component';
+import { StarmapComponent } from './starmap/starmap.component';
 
-export function apiConfigFactory (): Configuration {
+export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
     // none
-  }
+  };
   return new Configuration(params);
 }
 
@@ -32,9 +39,12 @@ export function apiConfigFactory (): Configuration {
     FleetOverviewComponent,
     BankOverviewComponent,
     SettingsComponent,
-    StructuresOverviewComponent,
     LoginComponent,
-    FleetSettingsComponent
+    FleetSettingsComponent,
+    ShipCardComponent,
+    ArrivalEtaPipe,
+    FleetAutomationComponent,
+    StarmapComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,9 +55,9 @@ export function apiConfigFactory (): Configuration {
     NgxWebstorageModule.forRoot(),
     BrowserAnimationsModule,
     MatButtonToggleModule,
-    ClipboardModule
+    ClipboardModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

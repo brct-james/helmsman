@@ -1,0 +1,66 @@
+<div class="shipCard">
+  <div class="shipCardHeader">
+    <p class="shipName">{{ shipInfo.symbol }}</p>
+    <p class="shipClass">{{ shipInfo.registration.role }}</p>
+    <p class="shipFaction">{{ shipInfo.registration.factionSymbol }}</p>
+    <div class="shipTagsList"></div>
+  </div>
+  <div class="shipDetails">
+    <div class="cargo">
+      <span class="cargoheader"
+        >Cargo<span class="cargocap"
+          >{{ shipInfo.cargo.capacity - shipInfo.cargo.units }} /
+          {{ shipInfo.cargo.capacity }}</span
+        ></span
+      >
+      <div class="inventory">
+        <p class="good" *ngFor="let good of shipInfo.cargo.inventory">
+          <span class="goodUnits">{{ good.units }}</span
+          >{{ good.name }}
+        </p>
+      </div>
+    </div>
+    <div class="shipControls">
+      <div class="shipControl shipMovementControls">
+        <span class="controlHeader">Move</span>
+      </div>
+      <div class="shipControl shipModuleControls">
+        <span class="controlHeader">Modules</span>
+      </div>
+      <div class="shipControl shipCargoControls">
+        <span class="controlHeader">Cargo</span>
+      </div>
+    </div>
+  </div>
+  <div class="shipCardFooter">
+    <div class="shipFuelAnti">
+      <span class="shipFuelAntiLable">Fuel</span>
+      <span class="fuelStat">{{ shipInfo.fuel.current }} F</span
+      ><span class="antimatterStat"
+        >{{ getShipAntimatter(shipInfo.cargo.inventory) }} AM</span
+      >
+    </div>
+    <div class="shipFlightStatus">
+      <div
+        class="shipDockedOrOrbiting"
+        *ngIf="['DOCKED', 'ORBIT'].includes(shipInfo.nav.status)"
+      >
+        <span class="shipLocation">
+          {{ shipInfo.nav.status }} at {{ shipInfo.nav.waypointSymbol }}
+        </span>
+        <span class="coords"
+          >{{ shipInfo.nav.route.destination.x }},
+          {{ shipInfo.nav.route.destination.y }}
+        </span>
+      </div>
+      <div class="shipFlying" *ngIf="shipInfo.nav.status == 'FLYING'">
+        <span class="shipFlightPlan">
+          {{ shipInfo.nav.status }} route
+          {{ shipInfo.nav.route.departure.symbol }} ->
+          {{ shipInfo.nav.route.destination.symbol }} | ETA
+          {{ shipInfo.nav.route.arrival | arrivalEta : tRemShipStatus }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
