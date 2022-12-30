@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AgentsService, ContractsService, DefaultService, FactionsService, FleetService, RegisterRequest, SystemsService } from 'spacetraders-v2-ng';
+import { AgentsService, ContractsService, DefaultService, FactionsService, FleetService, Register201ResponseData, RegisterRequest, SystemsService } from 'spacetraders-v2-ng';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Router } from '@angular/router';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ApiService {
   haveSession: boolean = false;
   DEBUG: boolean = true;
 
-  constructor(private ls: LocalStorageService, private router: Router, private defaultService: DefaultService) {
+  constructor(private ls: LocalStorageService, private router: Router, private clipboard: Clipboard, private defaultService: DefaultService, private agentsService: AgentsService, private contractsService: ContractsService, private fleetService: FleetService) {
     setInterval(this.handleInterval.bind(this), 5000);
     this.checkSessionStatus();
   }
@@ -40,7 +41,7 @@ export class ApiService {
     if (localCredentials) {
       //saved session, attempt login with same
       this.DEBUG && console.log('[api-service] Credentials found for:', localCredentials.username);
-      this.login(localCredentials.username, localCredentials.userToken);
+      this.login(localCredentials.userToken);
     } else {
       //no session saved, request user credentials
       //temporarily hardcoding these creds
@@ -49,58 +50,124 @@ export class ApiService {
     }
   }
 
-  login(username: string, token?: string): string {
-    let message = '';
-    let loginSuccess = false;
-    this.DEBUG && console.log('[api-service] Attempting login with:', username, '| token:', token);
+  mapOfFactionNameToEnum: Record<string, RegisterRequest.FactionEnum> = {
+    "Cosmic": RegisterRequest.FactionEnum.Cosmic,
+    "Void": RegisterRequest.FactionEnum.Void,
+    "Galactic": RegisterRequest.FactionEnum.Gallactic,
+    "Quantum": RegisterRequest.FactionEnum.Quantum,
+    "Dominion": RegisterRequest.FactionEnum.Dominion,
+    "Astro": RegisterRequest.FactionEnum.Astro,
+    "Corsairs": RegisterRequest.FactionEnum.Corsairs,
+    "United": RegisterRequest.FactionEnum.United,
+    "Solitary": RegisterRequest.FactionEnum.Solitary,
+    "Cobalt": RegisterRequest.FactionEnum.Cobalt,
+  };
+
+  async register(factionName: string, symbol: string): Promise<string> {
+    symbol = symbol.toUpperCase();
+    let faction: RegisterRequest.FactionEnum = this.mapOfFactionNameToEnum[factionName];
+    this.DEBUG && console.log('[api-service] Attempting registration with:', symbol, '| faction:', faction);
     let registerRequest: RegisterRequest = {
-      faction: RegisterRequest.FactionEnum.Cosmic,
-      symbol: "Test6931458"
+      faction: faction,
+      symbol: symbol
     }
-    this.defaultService.register(registerRequest).subscribe(response => {
-      let body = response.data;
-      let agent = body.agent;
-      let contract = body.contract;
-      let faction = body.faction;
-      let ship = body.ship;
-      let token = body.token;
-      message = token;
+    return new Promise((resolve, reject) => {
+      this.defaultService.register(registerRequest).subscribe((response) => {
+        if (response != undefined) {
+          let data = response.data;
+          this.storeLocally('userInfo', {
+            username: symbol,
+            userToken: data.token,
+          });
+          this.storeLocally('agentInfo', {
+            accountId: data.agent.accountId,
+            credits: data.agent.credits,
+            headquarters: data.agent.headquarters,
+            symbol: data.agent.symbol
+          });
+          this.storeLocally('contracts', {
+            contracts: [data.contract]
+          });
+          this.storeLocally('ships', {
+            ships: [data.ship]
+          });
+          // this.clipboard.copy(data.token);
+          this.haveSession = true;
+          this.router.navigate(['/settings']);
+          resolve(data.token);
+        } else {
+          reject("Response Undefined - Could not Parse Response");
+        }
+      });
     });
-    this.storeLocally('userInfo', {
-      username: username,
-      userToken: token,
-    });
-    this.haveSession = true;
-    this.router.navigate(['/settings']);
-    return message;
   }
-    // TODO: Finish updating - need to .then on above
-    // this.api
-    //   .init(username, token)
-    //   .then((token: any) => {
-    //     if (token) {
-    //       loginSuccess = true;
-    //       this.storeLocally('userInfo', {
-    //         username: username,
-    //         userToken: token,
-    //       });
-    //       //After login cache user info, then request basic account info from api
-    //       this.DEBUG &&
-    //         console.log('[api-service] Have session now true, timeout interval will begin ticking, entries will populate at 5 minute marks');
-    //       this.haveSession = true;
-    //       message = 'Credentials accepted, redirecting...';
-    //     } else {
-    //       message = 'Error while attempting login. Username may be taken or login token incorrect.';
-    //     }
-    //     callback && callback(loginSuccess, message);
-    //   })
-    //   .catch((e) => {
-    //     message = 'Error while attempting login. Username may be taken or login token incorrect.';
-    //     callback && callback(loginSuccess, message);
-    //     this.DEBUG && console.log('[api-service] Error while attempting login:', e);
-    //   });
-    // return message;
-  // }
+
+  async login(token: string): Promise<string> {
+    let message: string;
+    this.DEBUG && console.log('[api-service] Attempting login with token:', token);
+    this.agentsService.configuration.credentials['AgentToken'] = token;
+    // TODO: see if the above works for setting credentials that getMyAgent request can use. Also write code for below to getMyAgent and other relevant entries
+    let agentResolution = await new Promise((resolve, reject) => {
+      this.agentsService.getMyAgent().subscribe((response) => {
+        if (response != undefined) {
+          let data = response.data;
+          this.storeLocally('userInfo', {
+            username: data.symbol,
+            userToken: token
+          });
+          this.storeLocally('agentInfo', {
+            accountId: data.accountId,
+            credits: data.credits,
+            headquarters: data.headquarters,
+            symbol: data.symbol
+          });
+          resolve(true);
+        } else {
+          reject("Response undefined");
+        }
+      });
+    });
+    
+    let contractsResolution = await new Promise((resolve, reject) => {
+      this.contractsService.getContracts().subscribe((response) => {
+        if (response != undefined) {
+          let data = response.data;
+          this.storeLocally('contracts', {
+            contracts: data
+          });
+          resolve(true);
+        } else {
+          reject("Response undefined");
+        }
+      });
+    });
+
+    let fleetResolution = await new Promise((resolve, reject) => {
+      this.fleetService.getMyShips().subscribe((response) => {
+        if (response != undefined) {
+          let data = response.data;
+          this.storeLocally('ships', {
+            ships: data
+          });
+          resolve(true);
+        } else {
+          reject("Response undefined");
+        }
+      });
+    });
+
+    if (agentResolution && contractsResolution && fleetResolution) {
+      return new Promise((resolve, reject) => {
+        this.haveSession = true;
+        this.router.navigate(['/settings']);
+        // this.clipboard.copy(token);
+        resolve(token);
+      })
+    }
+    return new Promise((resolve, reject) => {
+      reject;
+    });
+  }
 
 //   getAccountInfo() {
 //     this.api.getAccount().then((res: any) => {

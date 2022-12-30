@@ -1,7 +1,7 @@
 <nav>
   <a class="navItem" *ngIf="this.api.haveSession" id="dashLink" routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
     <i class="fas fa-tachometer-alt"></i>
-    <span>Bank</span>
+    <span>Dashboard</span>
   </a>
   <a class="navItem" *ngIf="this.api.haveSession" id="bankLink" routerLink="/b" [routerLinkActive]="['active']">
     <img src="assets/images/badge_icons/credits.svg" />

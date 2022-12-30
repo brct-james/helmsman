@@ -8,9 +8,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
+  loginOrRegister = 'login';
   message: string = '';
   username: string = '';
   token: string = '';
+  faction: string = 'Cosmic';
+
+  get factionKeys(): Array<string> {
+    return Object.keys(this.api.mapOfFactionNameToEnum)
+  }
+
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit(): void {
@@ -19,12 +26,23 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  attemptLogin(): void {
+  async attemptLogin() {
     this.message = 'Attemping login...';
     try {
-      this.message = this.api.login(
-        this.username,
+      this.message = await this.api.login(
         this.token
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async attemptRegister() {
+    this.message = 'Attemping registration...';
+    try {
+      this.message = await this.api.register(
+        this.faction,
+        this.username
       );
     } catch (e) {
       console.log(e);

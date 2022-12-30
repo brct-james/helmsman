@@ -1,14 +1,25 @@
 <div id="login">
     <p id="loginInstructions">
-      Please enter your desired username. If you have already registered an account this wipe, please also enter your account token. Otherwise one will
-      be generated for you.
+      If you already have an account, please enter your token. If not, please select 'Register' and enter your desired username and faction.
     </p>
-    <form id="loginForm" #loginForm="ngForm">
-      <label for="username">Username:</label><br />
-      <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Enter Username" required /><br />
-      <label for="token">Token:</label><br />
-      <input type="text" id="token" name="token" [(ngModel)]="token" placeholder="(Optional) Enter Token" /><br />
+    <mat-button-toggle-group name="loginOrRegister" aria-label="Login or Register" [(ngModel)]="loginOrRegister">
+      <mat-button-toggle value="login">Login</mat-button-toggle>
+      <mat-button-toggle value="register">Register</mat-button-toggle>
+    </mat-button-toggle-group>
+    <form id="loginForm" #loginForm="ngForm" *ngIf="loginOrRegister=='login'">
+      <label for="token">Token</label><br />
+      <input type="text" id="token" name="token" [(ngModel)]="token" placeholder="Enter Token" /><br />
       <input type="button" value="Login" (click)="attemptLogin()" />
+    </form>
+    <form id="registerForm" #registerForm="ngForm" *ngIf="loginOrRegister=='register'">
+      <label for="username">Username</label><br />
+      <input type="text" id="username" name="username" [(ngModel)]="username" placeholder="Enter Username" required /><br />
+      <label for="faction">Faction</label><br />
+      <select id="faction" name="faction" [(ngModel)]="faction">
+        <option *ngFor="let key of factionKeys" [value]="key" [attr.selected]="key=='Cosmic'">{{key}}</option>
+      </select>
+      <br />
+      <input type="button" value="Register" (click)="attemptRegister()" />
     </form>
     <p id="message" class="importantText">{{ message }}</p>
 </div>

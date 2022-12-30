@@ -1,1 +1,14 @@
-<p>settings works!</p>
+<div class="userInfo">
+  <div class="center-text-on-button"><p>Username: {{ username }}</p>
+      <button (click)="resetLocalStorage()">Logout</button>
+  </div>  
+  <p class="importantText">SAVE YOUR TOKEN SOMEPLACE SAFE OR YOU WILL NOT BE ABLE TO LOG IN AGAIN</p>
+  <div class="center-text-on-button">
+    <label for="token-textarea">Token</label>
+    <button [cdkCopyToClipboard]="tokenValue" (click)="showCopyMsg()">Copy to Clipboard</button>
+    <span id="copy-message" [hidden]="!copyMsgVisible">Copied to clipboard...</span>
+  </div>
+  <textarea id="token-textarea" cols="100" rows="4" [(ngModel)]="tokenValue"></textarea>
+</div>
+<app-fleet-settings></app-fleet-settings>
+  

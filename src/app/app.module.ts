@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { ApiModule, Configuration, ConfigurationParameters } from 'spacetraders-v2-ng';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { HttpClientModule } from '@angular/common/http';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,10 +15,12 @@ import { BankOverviewComponent } from './bank-overview/bank-overview.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StructuresOverviewComponent } from './structures-overview/structures-overview.component';
 import { LoginComponent } from './login/login.component';
+import { FleetSettingsComponent } from './settings/fleet-settings/fleet-settings.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
-    // set config params here
+    // none
   }
   return new Configuration(params);
 }
@@ -28,14 +33,19 @@ export function apiConfigFactory (): Configuration {
     BankOverviewComponent,
     SettingsComponent,
     StructuresOverviewComponent,
-    LoginComponent
+    LoginComponent,
+    FleetSettingsComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     ApiModule.forRoot(apiConfigFactory),
-    NgxWebstorageModule.forRoot()
+    NgxWebstorageModule.forRoot(),
+    BrowserAnimationsModule,
+    MatButtonToggleModule,
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
