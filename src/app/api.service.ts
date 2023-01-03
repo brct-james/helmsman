@@ -147,6 +147,7 @@ export class ApiService {
       this.agentsService.getMyAgent().subscribe((response) => {
         if (response != undefined) {
           let data = response.data;
+          this.haveSession = true;
           this.storeLocally('userInfo', {
             username: data.symbol,
             userToken: token,
@@ -191,7 +192,6 @@ export class ApiService {
       systemsResolution
     ) {
       return new Promise((resolve, reject) => {
-        this.haveSession = true;
         if (!skipRedirect) {
           this.router.navigate(['/settings']);
         }
