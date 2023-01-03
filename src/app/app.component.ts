@@ -4,7 +4,7 @@ import { ApiService } from './api.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.sass'],
 })
 export class AppComponent {
   title = 'helmsman';
@@ -12,6 +12,16 @@ export class AppComponent {
   constructor(public api: ApiService) {}
 
   get username(): string {
-    return this.api.retrieveLocally('userInfo') === null ? 'Helmsman' : this.api.retrieveLocally('userInfo').username;
+    if (this.api.haveSession) {
+      return this.api.retrieveLocally('userInfo') === null
+        ? 'HELMSMAN'
+        : this.api.retrieveLocally('userInfo').username;
+    } else {
+      return 'HELMSMAN';
+    }
+  }
+
+  async refreshStarmap() {
+    await this.api.getAllSystems();
   }
 }

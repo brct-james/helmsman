@@ -24,6 +24,7 @@ import { ShipCardComponent } from './ship-card/ship-card.component';
 import { ArrivalEtaPipe } from './arrival-eta.pipe';
 import { FleetAutomationComponent } from './fleet-automation/fleet-automation.component';
 import { StarmapComponent } from './starmap/starmap.component';
+import { NgChartsModule } from 'ng2-charts';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -56,6 +57,7 @@ export function apiConfigFactory(): Configuration {
     BrowserAnimationsModule,
     MatButtonToggleModule,
     ClipboardModule,
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

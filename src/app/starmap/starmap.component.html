@@ -1,1 +1,24 @@
-<p>starmap works!</p>
+<div class="starmap">
+  <div class="systems">
+    <button (click)="initializeCharts()">Update Chart</button>
+    <div id="starmap-container">
+      <div id="starmap-wrapper">
+        <canvas
+          id="starmap-canvas"
+          class="chart"
+          width="500"
+          height="500"
+        ></canvas>
+      </div>
+    </div>
+    <!-- <canvas
+      baseChart
+      class="chart"
+      [data]="systemChartData"
+      [options]="systemChartOptions"
+      [type]="systemChartType"
+      height="500"
+      width="500"
+    ></canvas> -->
+  </div>
+</div>

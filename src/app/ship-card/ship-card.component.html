@@ -9,8 +9,9 @@
     <div class="cargo">
       <span class="cargoheader"
         >Cargo<span class="cargocap"
-          >{{ shipInfo.cargo.capacity - shipInfo.cargo.units }} /
-          {{ shipInfo.cargo.capacity }}</span
+          >{{ shipInfo.cargo.units }} / {{ shipInfo.cargo.capacity }} ({{
+            shipInfo.cargo.capacity - shipInfo.cargo.units
+          }})</span
         ></span
       >
       <div class="inventory">
