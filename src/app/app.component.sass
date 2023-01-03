@@ -7,28 +7,36 @@ nav
     align-items: center
     border-bottom: solid $main-yellow 3px
     height: $nav-height
+    *
+        -webkit-user-select: none
+        -ms-user-select: none
+        user-select: none
 #logoHeader
     display: flex
     flex-direction: column
     color: $main-yellow
     align-items: center
-    justify-content: center
+    justify-content: flex-start
     height: $nav-height
-    margin: 0 1em
-    padding: 0 1em
+    margin: 0 0.5em
+    padding: 0 0.5em
     font-size: $nav-font-size
     text-decoration: none
-img
-    height: $nav-logo-dimensions
-    width: $nav-logo-dimensions
-#usernameHeader
-    margin: 0.1em 0 0 0
+    #logoLabel
+        margin: 0.1em 0
+        font-weight: 700
+    img
+        height: $nav-logo-dimensions
+        width: $nav-logo-dimensions
+    #usernameHeader
+        margin: 0.1em 0 0 0
+        font-size: calc($nav-font-size - 4px)
 .navItem
     color: $main-white
     background-color: $sb-bg
-    min-width: $nav-height
-    margin: 0 0.25em
-    padding: 0 0.5em
+    min-width: calc($nav-height / 2)
+    margin: 0 0.1em
+    padding: 0 0.75em
     display: flex
     flex-direction: column
     align-items: center
@@ -39,7 +47,7 @@ img
     box-shadow: 0px 0px 0px 100px $sb-bg inset
     -webkit-box-shadow: 0px 0px 0px 100px $sb-bg inset
     -moz-box-shadow: 0px 0px 0px 100px $sb-bg inset
-    transition: all 0.2s
+    transition: all 0.3s
     i
         text-align: center
         font-size: $nav-icon-dimensions
@@ -52,23 +60,22 @@ img
     &.active, &:hover
         color: $main-yellow
         background-color: $sb-bg-highlight
-        box-shadow: 0px 0px 15px 12px $sb-bg inset
-        -webkit-box-shadow: 0px 0px 15px 12px $sb-bg inset
-        -moz-box-shadow: 0px 0px 15px 12px $sb-bg inset
-        border-radius:50%
+        box-shadow: 0px -50px 25px -10px $sb-bg inset, 0px 0px 5px 5px $sb-bg inset
+        -webkit-box-shadow: 0px -50px 25px -10px $sb-bg inset, 0px 0px 5px 5px $sb-bg inset
+        -moz-box-shadow: 0px -50px 25px -10px $sb-bg inset, 0px 0px 5px 5px $sb-bg inset
         img
             filter: brightness(0) saturate(100%) invert(87%) sepia(76%) saturate(6471%) hue-rotate(356deg) brightness(108%) contrast(103%)
 .bodyContent
-  display: flex
-  background-color: $body-bg
-  color: $body-text
-  font-size: $body-font-size
-  flex-flow: row nowrap
-  align-items: flex-start
-  justify-content: flex-start
-  margin: $body-margin
-  width: $body-width
-  height: $body-height
+    display: flex
+    background-color: $body-bg
+    color: $body-text
+    font-size: $body-font-size
+    flex-flow: row nowrap
+    align-items: flex-start
+    justify-content: flex-start
+    margin: $body-margin
+    width: $body-width
+    height: $body-height
 
 // @media(max-width: 758px)
 //     nav
