@@ -1,6 +1,8 @@
 <div class="shipCard">
   <div class="shipCardHeader">
-    <p class="shipName">{{ shipInfo.symbol }}</p>
+    <a class="shipName" [routerLink]="['/f/ship', shipInfo.symbol]">
+      {{ shipInfo.symbol }}
+    </a>
     <p class="shipClass">{{ shipInfo.registration.role }}</p>
     <p class="shipFaction">{{ shipInfo.registration.factionSymbol }}</p>
     <div class="shipTagsList"></div>
@@ -59,7 +61,7 @@
           {{ shipInfo.nav.status }} route
           {{ shipInfo.nav.route.departure.symbol }} ->
           {{ shipInfo.nav.route.destination.symbol }} | ETA
-          {{ shipInfo.nav.route.arrival | arrivalEta : tRemShipStatus }}
+          {{ shipInfo.nav.route.arrival | arrivalEta }}
         </span>
       </div>
     </div>

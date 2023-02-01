@@ -1,9 +1,18 @@
 <div id="fleetOverview">
-    <div id="fleetUpdateTicker"><button id="updateFleetInfoBtn" (click)="updateFleetInfo()">Update Fleet Info</button><span>Time remaining till next automatic fleet update: {{ timeRemainingGetFleetStatus }}s</span></div>
-    <app-fleet-settings></app-fleet-settings>
-    <app-fleet-automation></app-fleet-automation>
-    <div class="fleetCards">
-    <app-ship-card *ngFor="let ship of fleetArray" [shipInfo]="ship" [tRemShipStatus]="timeRemainingGetFleetStatus"></app-ship-card>
-    </div>
+  <div id="fleetUpdateTicker">
+    <button id="updateFleetInfoBtn" (click)="updateFleetInfo()">
+      Update Fleet Info</button
+    ><span
+      >Time remaining till next automatic fleet update:
+      {{ timeRemainingGetFleetStatus }}s</span
+    >
+  </div>
+  <app-fleet-settings></app-fleet-settings>
+  <app-fleet-automation></app-fleet-automation>
+  <div class="fleetCards">
+    <app-ship-card
+      *ngFor="let ship of fleetArray"
+      [shipInfo]="ship"
+    ></app-ship-card>
+  </div>
 </div>
-

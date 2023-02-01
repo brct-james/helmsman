@@ -8,6 +8,7 @@ import {
   WaypointTrait,
   WaypointType,
 } from 'spacetraders-v2-ng';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-starpanel',
@@ -133,15 +134,6 @@ export class StarpanelComponent {
     }
     this.updateShipsAtWaypoint(wptSymbol);
     console.log(this.activeWaypoint);
-  }
-
-  linkToShipInFleetPage(shipSymbol: string) {
-    // TODO: This
-    console.log(
-      '[starpanel-component::linkToShipInFleetPage] TODO: This: symbol:',
-      shipSymbol
-    );
-    return;
   }
 
   isWaypointActive(wptSymbol: string): boolean {

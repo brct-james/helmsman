@@ -234,7 +234,7 @@
               <div
                 *ngFor="let ship of shipsAtWaypoint"
                 class="waypointDetailPanelListItem"
-                (click)="linkToShipInFleetPage(ship.symbol)"
+                [routerLink]="['/f/ship', ship.symbol]"
               >
                 <span class="waypointDetailPanelListItemShipSymbol">{{
                   ship.symbol
@@ -248,24 +248,6 @@
                 <span class="waypointDetailPanelListItemShipStatus">
                   {{ ship.nav.status }} at {{ ship.nav.waypointSymbol }}
                 </span>
-
-                <!-- <div class="waypointDetailPanelListItemOrbitalKeyedSymbols">
-                  <i
-                    *ngIf="!getWaypoint(orbital.symbol).chart"
-                    class="fa-regular fa-eye-slash waypointKeyedSymbol"
-                  ></i
-                  ><i
-                    *ngIf="doesWaypointHaveShip(orbital.symbol)"
-                    class="fa-regular fa-rocket waypointKeyedSymbol"
-                  ></i>
-                </div>
-                <span class="waypointDetailPanelListItemOrbitalCoords"
-                  >({{ getWaypoint(orbital.symbol).x }},
-                  {{ getWaypoint(orbital.symbol).y }})</span
-                >
-                <span class="waypointDetailPanelListItemOrbitalType">{{
-                  getWaypoint(orbital.symbol).type
-                }}</span> -->
               </div>
             </div>
           </div>

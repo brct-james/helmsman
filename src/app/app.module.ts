@@ -26,6 +26,7 @@ import { FleetAutomationComponent } from './fleet-automation/fleet-automation.co
 import { StarmapComponent } from './starmap/starmap.component';
 import { NgChartsModule } from 'ng2-charts';
 import { StarpanelComponent } from './starmap/starpanel/starpanel.component';
+import { ShipDetailsComponent } from './ship-details/ship-details.component';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -48,6 +49,7 @@ export function apiConfigFactory(): Configuration {
     FleetAutomationComponent,
     StarmapComponent,
     StarpanelComponent,
+    ShipDetailsComponent,
   ],
   imports: [
     BrowserModule,

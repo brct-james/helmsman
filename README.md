@@ -10,12 +10,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Fix issues with system batching
 - Add ships to waypoint detail panel
 - Add system category for no system waypoints (uninitialized)
+- Starmap: Add click to open ship functionality in starmap waypoint details after creating logic for f/<ship-id> routes
 
 ### ON DECK
 
-- Check getWaypointsMessage is always being set as intended
-- Add favorite/unfavorite button (maybe a star?) - instead of category maybe use a symbol instead
-- Add click to open ship functionality in starmap waypoint details after creating logic for f/<ship-id> routes
+- Starmap: Check getWaypointsMessage is always being set as intended
+- Starmap: Add favorite/unfavorite button (maybe a star?) - instead of category maybe use a symbol instead
+- Fleet: create f/<ship-id> routes
+  - Instead of reusing ship cards, make a better interface for interacting with ships here, maybe use starmap but make it system map
+- Add bottom bar to all pages, it should display contextual information depending on the route
+  - On fleet and ship pages it shows time since and till fleet update with a button to do it immediately (remove current implementation)
+  - Same on starmap (remove current implementation)
+- Rework how flightplans are displayed for ship cards
 
 ### IN STARMAP
 
@@ -33,6 +39,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Create loading overlay component
   - Toggle on while getAllSystems is running if on starmap
   - Should still allow access to other tabs
+- Change system waypoints to indent orbitals beneath the waypoint they orbit
+  - Consider removing orbitals section and instead widen traits
 
 ## Development server
 

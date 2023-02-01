@@ -6,23 +6,29 @@ import { LedgerOverviewComponent } from './ledger-overview/ledger-overview.compo
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
 import { StarmapComponent } from './starmap/starmap.component';
+import { ShipDetailsComponent } from './ship-details/ship-details.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'f', redirectTo: 'f/overview', pathMatch: 'full' },
+  { path: 'f', redirectTo: '/f/overview', pathMatch: 'full' },
   {
     path: 'f',
-    children: [{ path: 'overview', component: FleetOverviewComponent }],
+    children: [
+      { path: 'overview', component: FleetOverviewComponent },
+      { path: 'ship', redirectTo: '/f/overview', pathMatch: 'full' },
+      { path: 'ship/:symbol', component: ShipDetailsComponent },
+    ],
   },
-  { path: 'l', redirectTo: 'l/overview', pathMatch: 'full' },
+  { path: 'l', redirectTo: '/l/overview', pathMatch: 'full' },
   {
     path: 'l',
     children: [{ path: 'overview', component: LedgerOverviewComponent }],
   },
-  { path: 's', redirectTo: 's/map', pathMatch: 'full' },
+  { path: 's', redirectTo: '/s/map', pathMatch: 'full' },
   { path: 's', children: [{ path: 'map', component: StarmapComponent }] },
+  // { path: '**', component: DashboardComponent }, // Handle 404 Pages
 ];
 
 @NgModule({
