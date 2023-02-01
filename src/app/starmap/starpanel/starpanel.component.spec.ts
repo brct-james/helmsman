@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BankOverviewComponent } from './bank-overview.component';
+import { StarpanelComponent } from './starpanel.component';
 
-describe('BankOverviewComponent', () => {
-  let component: BankOverviewComponent;
-  let fixture: ComponentFixture<BankOverviewComponent>;
+describe('StarpanelComponent', () => {
+  let component: StarpanelComponent;
+  let fixture: ComponentFixture<StarpanelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BankOverviewComponent ]
+      declarations: [ StarpanelComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BankOverviewComponent);
+    fixture = TestBed.createComponent(StarpanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

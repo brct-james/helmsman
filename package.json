@@ -28,7 +28,7 @@
     "ngx-webstorage": "^11.1.1",
     "regl-scatterplot": "^1.4.2",
     "rxjs": "~7.5.0",
-    "spacetraders-v2-ng": "^0.1.5",
+    "spacetraders-v2-ng": "^0.1.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },

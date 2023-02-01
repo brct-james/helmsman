@@ -7,18 +7,18 @@
     [routerLinkActive]="['active']"
     [routerLinkActiveOptions]="{ exact: true }"
   >
-    <i class="fas fa-tachometer-alt"></i>
+    <i class="fa-duotone fa-tachometer-alt fa-xl"></i>
     <span>Dashboard</span>
   </a>
   <a
     class="navItem"
     *ngIf="this.api.haveSession"
-    id="bankLink"
-    routerLink="/b"
+    id="ledgerLink"
+    routerLink="/l"
     [routerLinkActive]="['active']"
   >
-    <img src="assets/images/badge_icons/credits.svg" />
-    <span>Bank</span>
+    <i class="fa-duotone fa-chart-line-up fa-xl"></i>
+    <span>Ledger</span>
   </a>
   <a
     class="navItem"
@@ -27,7 +27,7 @@
     routerLink="/f"
     [routerLinkActive]="['active']"
   >
-    <img src="assets/images/badge_icons/ships.svg" />
+    <i class="fa-duotone fa-shuttle-space fa-xl"></i>
     <span>Fleet</span>
   </a>
   <div id="logoHeader">
@@ -42,7 +42,7 @@
     routerLink="/s"
     [routerLinkActive]="['active']"
   >
-    <i class="fas fa-sun"></i>
+    <i class="fa-duotone fa-radar fa-xl"></i>
     <span>Starmap</span>
   </a>
   <a
@@ -52,7 +52,7 @@
     routerLink="/settings"
     [routerLinkActive]="['active']"
   >
-    <i class="fas fa-cog"></i>
+    <i class="fa-duotone fa-gears fa-xl"></i>
     <span>Settings</span>
   </a>
   <a
@@ -62,7 +62,7 @@
     href="https://github.com/brct-james/helmsman"
     target="_blank"
   >
-    <i class="fas fa-external-link-alt"></i>
+    <i class="fa-duotone fa-arrow-up-right-from-square fa-xl"></i>
     <span>Github</span>
   </a>
 </nav>

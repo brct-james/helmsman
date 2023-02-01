@@ -7,11 +7,15 @@ import {
   FleetService,
   Register201ResponseData,
   RegisterRequest,
+  System,
   SystemsService,
+  Waypoint,
 } from 'spacetraders-v2-ng';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Router } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { firstValueFrom, timeout } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -84,11 +88,11 @@ export class ApiService {
     Galactic: RegisterRequest.FactionEnum.Galactic,
     Quantum: RegisterRequest.FactionEnum.Quantum,
     Dominion: RegisterRequest.FactionEnum.Dominion,
-    Astro: RegisterRequest.FactionEnum.Astro,
-    Corsairs: RegisterRequest.FactionEnum.Corsairs,
-    United: RegisterRequest.FactionEnum.United,
-    Solitary: RegisterRequest.FactionEnum.Solitary,
-    Cobalt: RegisterRequest.FactionEnum.Cobalt,
+    // Astro: RegisterRequest.FactionEnum.Astro,
+    // Corsairs: RegisterRequest.FactionEnum.Corsairs,
+    // United: RegisterRequest.FactionEnum.United,
+    // Solitary: RegisterRequest.FactionEnum.Solitary,
+    // Cobalt: RegisterRequest.FactionEnum.Cobalt,
   };
 
   async register(factionName: string, symbol: string): Promise<string> {
@@ -167,7 +171,7 @@ export class ApiService {
 
     let contractsResolution = await new Promise((resolve, reject) => {
       this.contractsService
-        .getContracts(undefined, 10000)
+        .getContracts(undefined, 100)
         .subscribe((response) => {
           if (response != undefined) {
             let data = response.data;
@@ -183,16 +187,9 @@ export class ApiService {
 
     let fleetResolution = await this.getAllShips();
 
-    let systemsResolution = await this.getAllSystems();
-
-    if (
-      agentResolution &&
-      contractsResolution &&
-      fleetResolution &&
-      systemsResolution
-    ) {
+    if (agentResolution && contractsResolution && fleetResolution) {
       return new Promise((resolve, reject) => {
-        if (!skipRedirect) {
+        if (!skipRedirect || this.router.url === '/login') {
           this.router.navigate(['/settings']);
         }
         // this.clipboard.copy(token);
@@ -233,7 +230,7 @@ export class ApiService {
 
   async getAllShips(): Promise<string> {
     return await new Promise((resolve, reject) => {
-      this.fleetService.getMyShips(undefined, 10000).subscribe((response) => {
+      this.fleetService.getMyShips(undefined, 100).subscribe((response) => {
         if (response != undefined) {
           let data = response.data;
           this.storeLocally('fleet', {
@@ -248,15 +245,106 @@ export class ApiService {
   }
 
   async getAllSystems(): Promise<string> {
+    console.log(
+      '[api-service::getAllSystems] Received Request to getAllSystems'
+    );
+    return await new Promise(async (resolve, reject) => {
+      let allSystems: Array<System> = [];
+      let limit = 100;
+      let page = 1;
+      let count = 0;
+      let total = 0;
+      let response = await firstValueFrom(
+        this.systemsService.getSystems(page, limit)
+      );
+      if (response != undefined) {
+        count += limit;
+        page += 1;
+        total = response.meta.total;
+        allSystems = response.data;
+      } else {
+        console.log('[api-service::getAllSystems] Failed to getSystems');
+        reject('Failed to getSystems');
+      }
+
+      console.log(
+        '[api-service::getAllSystems] Got page 1 up to limit 100:',
+        allSystems
+      );
+
+      while (count < total) {
+        try {
+          response = await firstValueFrom(
+            this.systemsService.getSystems(page, limit)
+          );
+        } catch (e) {
+          if (e instanceof HttpErrorResponse && e.status == 429) {
+            type RatelimitErrorResponse = {
+              error: {
+                message: string;
+                code: number;
+                data: {
+                  type: string;
+                  retryAfter: number;
+                  limitBurst: number;
+                  limitPerSecond: number;
+                  remaining: number;
+                  reset: string;
+                };
+              };
+            };
+            let rlErr: RatelimitErrorResponse = e.error;
+            console.log(
+              '[api-service::getAllSystems] Hit Ratelimit Response, Awaiting till retryAfter:',
+              rlErr.error.data.retryAfter * 1000,
+              'ms'
+            );
+            await new Promise((resolve) =>
+              setTimeout(resolve, rlErr.error.data.retryAfter * 1000)
+            );
+            continue;
+          }
+        }
+        if (response != undefined) {
+          count += limit;
+          page += 1;
+          total = response.meta.total;
+          allSystems.concat(response.data);
+        } else {
+          console.log(
+            `[api-service::getAllSystems] Failed during getSystems batching: (page ${page}) (count ${count}) (total ${total}) (limit ${limit})`
+          );
+          reject(
+            `Failed during getSystems batching: (page ${page}) (count ${count}) (total ${total}) (limit ${limit})`
+          );
+        }
+      }
+
+      this.storeLocally('systems', {
+        systems: allSystems,
+        timestamp: new Date().toISOString(),
+      });
+
+      resolve('');
+    });
+  }
+
+  async getSystemWaypoints(systemSymbol: string): Promise<string> {
     return await new Promise((resolve, reject) => {
       this.systemsService
-        .getSystems(undefined, 100000)
+        .getSystemWaypoints(systemSymbol, undefined, 100)
         .subscribe((response) => {
           if (response != undefined) {
             let data = response.data;
-            this.storeLocally('systems', {
-              systems: data,
-            });
+            let waypointStorage: {
+              systems: Record<string, Waypoint[]>;
+              timestamp: string;
+            } = this.retrieveLocally('waypoints') || {
+              systems: {},
+              timestamp: new Date(0).toISOString(),
+            };
+            waypointStorage['systems'][systemSymbol] = data;
+            this.storeLocally('waypoints', waypointStorage);
             resolve('Success');
           } else {
             reject('Response undefined');

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.sass']
+  styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent implements OnInit {
   loginOrRegister = 'login';
@@ -15,12 +15,13 @@ export class LoginComponent implements OnInit {
   faction: string = 'Cosmic';
 
   get factionKeys(): Array<string> {
-    return Object.keys(this.api.mapOfFactionNameToEnum)
+    return Object.keys(this.api.mapOfFactionNameToEnum);
   }
 
   constructor(private api: ApiService, private router: Router) {}
 
   ngOnInit(): void {
+    console.log('[login-component] Have Session?', this.api.haveSession);
     if (this.api.haveSession) {
       this.router.navigate(['/']);
     }
@@ -29,9 +30,7 @@ export class LoginComponent implements OnInit {
   async attemptLogin() {
     this.message = 'Attemping login...';
     try {
-      this.message = await this.api.login(
-        this.token
-      );
+      this.message = await this.api.login(this.token);
     } catch (e) {
       console.log(e);
     }
@@ -40,10 +39,7 @@ export class LoginComponent implements OnInit {
   async attemptRegister() {
     this.message = 'Attemping registration...';
     try {
-      this.message = await this.api.register(
-        this.faction,
-        this.username
-      );
+      this.message = await this.api.register(this.faction, this.username);
     } catch (e) {
       console.log(e);
     }

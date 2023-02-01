@@ -1,0 +1,264 @@
+@import '../../variables.sass'
+.waypointKeyedSymbol
+    font-size: 1em
+    margin: 0 0.2em
+.tooltip
+    position: relative
+    display: inline-block
+.tooltip .tooltiptext
+    visibility: hidden
+    font-size: 10px
+    width: 80px
+    background-color: #ffffff
+    color: #000000
+    text-align: center
+    padding: 0
+    border-radius: 6px
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute
+    z-index: 1
+.tooltiptexttop
+    bottom: 100%
+    left: 50%
+    /* Use half of the width (120/2 = 60), to center the tooltip */
+    margin-left: -40px
+.tooltip:hover .tooltiptext
+    visibility: visible
+.copyFlash
+    transition: background-color 0s !important
+    background-color: $main-white
+.copiableText
+    transition: color 0.1s, background-color 1s
+    &:hover
+        color: $main-yellow
+        cursor: pointer
+#starpanel-wrapper
+    display: flex
+    flex-flow: column nowrap
+    width: calc(calc($body-width - (1 * #{$body-margin}) - 24px) / 2)
+#systemInfo
+    display: flex
+    flex-flow: column nowrap
+    overflow-y: auto
+    height: $body-height
+    #systemInfoHeader
+        display: flex
+        flex-flow: row nowrap
+        #systemInfoSymbol
+            margin-right: 0.5em
+        span
+            margin-right: 0.5em
+    #systemSymbolKeyWrapper
+        display: flex
+        flex-flow: row nowrap
+        align-items: center
+        text-align: center
+        margin: 0.25em 0 0.25em 1em
+        .systemSymbolKeyHeader
+            display: inline-block
+            font-size: 14px
+        #systemSymbolKey
+            display: flex
+            flex-flow: row nowrap
+            align-items: center
+            text-align: center
+            margin: 0.25em 0 0.25em 1em
+            span
+                margin-right: 1em
+                &:last-of-type
+                    margin-right: 0
+            svg
+                margin-right: 0.25em
+    p
+        margin: 0
+        padding: 0
+#getWaypointsWrapper
+    display: flex
+    flex-flow: row nowrap
+    align-items: center
+    button
+        margin: 0.75em 0
+.starmapLabel
+    font-size: 10px
+    color: $main-white
+    background-color: $body-bg-lowlight
+    padding: 0.5em
+    margin: 1em
+    text-align: center
+#waypointDetails
+    display: flex
+    flex-flow: column nowrap
+    margin: 0 0.25em 0 0
+    #getWaypointsMessageWrapper
+        display: flex
+        flex-flow: column nowrap
+        align-items: flex-start
+        justify-content: center
+        margin-left: 1em
+        #getWaypointsLabel
+            margin-left: 0
+    #waypointDetailsHeader
+        display: flex
+        flex-flow: row nowrap
+        align-items: center
+    #waypointDetailsList
+        overflow-x: visible
+        overflow-y: auto
+        height: 6em
+        width: calc(100% - 2em)
+        margin: 0 0 0 1em
+        background-color: $body-bg-lowlight
+        cursor: crosshair
+        border: 1px solid $main-white
+        -webkit-user-select: none
+        -ms-user-select: none
+        user-select: none
+        .waypointItemWrapper
+            border-bottom: 1px solid $main-white
+            &:last-child
+                border-bottom: none
+            .activeWaypointItem
+                background-color: $body-bg-highlight
+            .waypointItem
+                font-size: 10px
+                margin: 0
+                padding: 0
+                display: grid
+                grid-template-columns: min-content min-content min-content auto
+                gap: 0px
+                &:hover
+                    background-color: $body-bg-highlight
+                .waypointItemItem
+                    padding: 2px 0
+                .waypointSymbol
+                    grid-column: 1
+                    white-space: nowrap
+                    margin: 0 1em 0 0.5em
+                    width: 7.5em
+                .waypointKeyedSymbols
+                    grid-column: 2
+                    white-space: nowrap
+                    width: 5em
+                .waypointCoords
+                    grid-column: 3
+                    width: 6em
+                .waypointType
+                    grid-column: 4
+                .waypointType, .waypointCoords
+                    margin-right: 1em
+                    white-space: nowrap
+                    &:last-of-type
+                        margin-right: 0
+#waypointDetailPanel
+    display: flex
+    flex-flow: column nowrap
+    margin-top: 0.5em
+    #waypointDetailPanelHeader
+        margin-bottom: 0.25em
+    #waypointDetailPanelGrid
+        display: flex
+        flex-flow: column nowrap
+        .waypointDetailPanelGridRow
+            display: flex
+            flex-flow: row nowrap
+            align-items: center
+            margin: 0.25em 1em
+            .waypointDetailPanelInfoHeader
+                text-align: center
+                font-size: 14px
+            #waypointDetailPanelCoords
+                font-size: 14px
+                margin-left: 0.5em
+            .waypointDetailPanelInfo
+                font-size: 12px
+                color: $main-white
+                margin-left: 0.5em
+                background-color: $body-bg-lowlight
+                padding: 0.5em
+                white-space: normal
+            #waypointDetailPanelType
+                margin-right: 0.5em
+            #waypointDetailPanelFaction
+                margin-right: 0.5em
+            #waypointDetailPanelCharted
+                margin-right: 0em
+            #waypointDetailPanelTraits
+                margin-right: 1em
+                width: calc(40% - 1em)
+                #waypointDetailPanelTraitsHeader
+                    font-size: 20px
+                    margin: 0.25em 0
+            #waypointDetailPanelOrbitals
+                width: calc(60% - 1em)
+                #waypointDetailPanelOrbitalsHeader
+                    display: flex
+                    flex-flow: row nowrap
+                    align-items: center
+                    font-size: 20px
+                    span
+                        margin: 0.25em 0
+                    #waypointDetailPanelOrbitalsHeaderTip
+                        margin: 0.25em 0 0.25em 1em
+            #waypointDetailPanelShips
+                width: 96%
+                #waypointDetailPanelShipsHeader
+                    display: flex
+                    flex-flow: row nowrap
+                    align-items: center
+                    font-size: 20px
+                    span
+                        margin: 0.25em 0
+                    #waypointDetailPanelShipsHeaderTip
+                        margin: 0.25em 0 0.25em 1em
+            .waypointDetailPanelList
+                overflow-x: visible
+                overflow-y: auto
+                height: 4em
+                width: calc(100% - 0.5em - 2px)
+                margin-left: 0.5em
+                background-color: $body-bg-lowlight
+                cursor: crosshair
+                border: 1px solid $main-white
+                -webkit-user-select: none
+                -ms-user-select: none
+                user-select: none
+                .waypointDetailPanelListItem
+                    padding: 0.25em
+                    margin: 0
+                    border-bottom: 1px solid $main-white
+                    font-size: 10px
+                    display: grid
+                    grid-template-columns: min-content min-content min-content auto
+                    gap: 0px
+                    &:hover
+                        background-color: $body-bg-highlight
+                    &:last-child
+                        border-bottom: none
+                    .waypointDetailPanelListItemOrbitalSymbol
+                        grid-column: 1
+                        width: 7.5em
+                    .waypointDetailPanelListItemOrbitalKeyedSymbols
+                        grid-column: 2
+                        width: 4em
+                    .waypointDetailPanelListItemOrbitalCoords
+                        grid-column: 3
+                        width: 6em
+                    .waypointDetailPanelListItemOrbitalType
+                        grid-column: 4
+                    .waypointDetailPanelListItemShipSymbol
+                        grid-column: 1
+                        width: 8em
+                    .waypointDetailPanelListItemShipRole
+                        grid-column: 2
+                        width: 8em
+                    .waypointDetailPanelListItemShipFaction
+                        grid-column: 3
+                        width: 8em
+                    .waypointDetailPanelListItemShipStatus
+                        grid-column: 4
+                    span
+                        white-space: nowrap
+                        margin-right: 0.5em
+                        &:last-of-type
+                            margin-right: 0

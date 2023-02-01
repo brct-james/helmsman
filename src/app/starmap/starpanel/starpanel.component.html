@@ -1,0 +1,276 @@
+<div id="starpanel-wrapper">
+  <div id="systemInfo">
+    <div
+      id="systemInfoTutorial"
+      *ngIf="systemSymbol == undefined || systemSymbol == ''"
+    >
+      <span
+        >Click a dot on the left to select a system. Drag with mouse to move,
+        and scroll to zoom.</span
+      >
+    </div>
+    <div
+      id="systemInfoHeader"
+      *ngIf="systemSymbol != undefined && systemSymbol != ''"
+    >
+      <div
+        id="systemInfoSymbol"
+        class="copiableText tooltip"
+        [cdkCopyToClipboard]="stringifiedSystemSymbol"
+        (click)="copySymbolEvent(systemSymbol)"
+        [ngClass]="animateCopySymbol[systemSymbol] ? 'copyFlash' : ''"
+      >
+        {{ systemSymbol }}
+        <span class="tooltiptext tooltiptexttop">Click to Copy</span>
+      </div>
+      <span>({{ systemX }}, {{ systemY }})</span>
+      <span>{{ systemCategory }}</span>
+      <button (click)="getWaypoints()">Refresh</button>
+    </div>
+
+    <div
+      id="systemSymbolKeyWrapper"
+      *ngIf="systemSymbol != undefined && systemSymbol != ''"
+    >
+      <!-- <span>{{ systemCategory }}</span> -->
+      <span class="systemSymbolKeyHeader">Symbol Key</span>
+      <div id="systemSymbolKey" class="starmapLabel">
+        <span
+          ><i class="fa-regular fa-rocket waypointKeyedSymbol"></i>Ship
+          Present</span
+        >
+        <span
+          ><i class="fa-regular fa-eye-slash waypointKeyedSymbol"></i
+          >Uncharted</span
+        >
+        <span
+          ><i class="fa-regular fa-planet-moon waypointKeyedSymbol"></i>Has
+          Orbitals</span
+        >
+      </div>
+    </div>
+
+    <div id="waypointDetails" *ngIf="systemSymbol != undefined">
+      <span id="waypointDetailsHeader"
+        >System Waypoints - Count: {{ numWaypoints }}</span
+      >
+      <div id="getWaypointsMessageWrapper">
+        <span
+          id="getWaypointsLabel"
+          class="starmapLabel"
+          *ngIf="getWaypointsMessage != ''"
+        >
+          {{ getWaypointsMessage }}
+        </span>
+      </div>
+      <div id="waypointDetailsList" *ngIf="waypoints != undefined">
+        <div
+          *ngFor="let wpt of getSortedWaypointsArray()"
+          class="waypointItemWrapper"
+        >
+          <div
+            class="waypointItem"
+            (click)="activateDetailPanel(wpt.symbol)"
+            [ngClass]="isWaypointActive(wpt.symbol) ? 'activeWaypointItem' : ''"
+          >
+            <span class="waypointSymbol waypointItemItem"
+              >{{ wpt.symbol }}
+            </span>
+            <div class="waypointKeyedSymbols waypointItemItem">
+              <i
+                *ngIf="!wpt.chart"
+                class="fa-regular fa-eye-slash waypointKeyedSymbol"
+              ></i
+              ><i
+                *ngIf="wpt.orbitals.length > 0"
+                class="fa-regular fa-planet-moon waypointKeyedSymbol"
+              ></i
+              ><i
+                *ngIf="doesWaypointHaveShip(wpt.symbol)"
+                class="fa-regular fa-rocket waypointKeyedSymbol"
+              ></i>
+            </div>
+            <span class="waypointCoords waypointItemItem"
+              >({{ wpt.x }}, {{ wpt.y }})</span
+            >
+            <span class="waypointType waypointItemItem">{{ wpt.type }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="getWaypointsWrapper"
+      *ngIf="systemSymbol != undefined && systemSymbol != ''"
+    ></div>
+
+    <div id="waypointDetailPanel" *ngIf="activeWaypoint != ''">
+      <span id="waypointDetailPanelHeader">Waypoint Detail Panel</span>
+      <span
+        id="waypointDetailPanelIssueMessage"
+        *ngIf="activeWaypointDetails == undefined"
+        class="importantText"
+        >Failed to set active waypoint, contact maintainer</span
+      >
+      <div id="waypointDetailPanelGrid">
+        <div class="waypointDetailPanelGridRow">
+          <div
+            id="waypointInfoSymbol"
+            class="copiableText tooltip waypointDetailPanelInfoHeader"
+            [cdkCopyToClipboard]="stringifiedWaypointSymbol"
+            (click)="copySymbolEvent(stringifiedWaypointSymbol)"
+            [ngClass]="
+              animateCopySymbol[stringifiedWaypointSymbol] ? 'copyFlash' : ''
+            "
+          >
+            {{
+              activeWaypointDetails != undefined
+                ? activeWaypointDetails.symbol
+                : ""
+            }}
+            <span class="tooltiptext tooltiptexttop">Click to Copy</span>
+          </div>
+          <span id="waypointDetailPanelCoords"
+            >({{
+              activeWaypointDetails != undefined ? activeWaypointDetails.x : ""
+            }},
+            {{
+              activeWaypointDetails != undefined ? activeWaypointDetails.y : ""
+            }})</span
+          >
+          <div class="waypointDetailPanelInfo">
+            <span id="waypointDetailPanelType">{{
+              activeWaypointDetails != undefined
+                ? activeWaypointDetails.type
+                : ""
+            }}</span>
+            <span id="waypointDetailPanelFaction">{{
+              activeWaypointDetails != undefined
+                ? activeWaypointDetails.faction
+                  ? activeWaypointDetails.faction.symbol
+                  : "Unaffiliated"
+                : ""
+            }}</span>
+            <span id="waypointDetailPanelCharted">{{
+              activeWaypointDetails != undefined
+                ? activeWaypointDetails.chart
+                  ? "Charted by " + activeWaypointDetails.chart.submittedBy
+                  : "Uncharted"
+                : ""
+            }}</span>
+          </div>
+        </div>
+        <div class="waypointDetailPanelGridRow">
+          <div id="waypointDetailPanelTraits">
+            <div id="waypointDetailPanelTraitsHeader">
+              <span> Traits </span>
+            </div>
+            <div
+              id="waypointDetailPanelTraitsList"
+              class="waypointDetailPanelList"
+            >
+              <div
+                *ngFor="let trait of getActiveTraits()"
+                class="waypointDetailPanelListItem"
+              >
+                <span>{{ trait.name }}</span>
+              </div>
+            </div>
+          </div>
+          <div id="waypointDetailPanelOrbitals">
+            <div id="waypointDetailPanelOrbitalsHeader">
+              <span>Orbitals</span>
+              <span
+                id="waypointDetailPanelOrbitalsHeaderTip"
+                class="starmapLabel"
+                >Click to show orbital waypoint in detail panel</span
+              >
+            </div>
+            <div
+              id="waypointDetailPanelOrbitalsList"
+              class="waypointDetailPanelList"
+            >
+              <div
+                *ngFor="let orbital of getActiveOrbitals()"
+                class="waypointDetailPanelListItem"
+                (click)="activateDetailPanel(orbital.symbol)"
+              >
+                <span class="waypointDetailPanelListItemOrbitalSymbol">{{
+                  orbital.symbol
+                }}</span>
+                <div class="waypointDetailPanelListItemOrbitalKeyedSymbols">
+                  <i
+                    *ngIf="!getWaypoint(orbital.symbol).chart"
+                    class="fa-regular fa-eye-slash waypointKeyedSymbol"
+                  ></i
+                  ><i
+                    *ngIf="doesWaypointHaveShip(orbital.symbol)"
+                    class="fa-regular fa-rocket waypointKeyedSymbol"
+                  ></i>
+                </div>
+                <span class="waypointDetailPanelListItemOrbitalCoords"
+                  >({{ getWaypoint(orbital.symbol).x }},
+                  {{ getWaypoint(orbital.symbol).y }})</span
+                >
+                <span class="waypointDetailPanelListItemOrbitalType">{{
+                  getWaypoint(orbital.symbol).type
+                }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="waypointDetailPanelGridRow">
+          <div id="waypointDetailPanelShips">
+            <div id="waypointDetailPanelShipsHeader">
+              <span>Ships</span>
+              <span id="waypointDetailPanelShipsHeaderTip" class="starmapLabel"
+                >Click to open ship in fleet page</span
+              >
+            </div>
+            <div
+              id="waypointDetailPanelShipsList"
+              class="waypointDetailPanelList"
+            >
+              <div
+                *ngFor="let ship of shipsAtWaypoint"
+                class="waypointDetailPanelListItem"
+                (click)="linkToShipInFleetPage(ship.symbol)"
+              >
+                <span class="waypointDetailPanelListItemShipSymbol">{{
+                  ship.symbol
+                }}</span>
+                <span class="waypointDetailPanelListItemShipRole">
+                  {{ ship.registration.role }}
+                </span>
+                <span class="waypointDetailPanelListItemShipFaction">
+                  {{ ship.registration.factionSymbol }}
+                </span>
+                <span class="waypointDetailPanelListItemShipStatus">
+                  {{ ship.nav.status }} at {{ ship.nav.waypointSymbol }}
+                </span>
+
+                <!-- <div class="waypointDetailPanelListItemOrbitalKeyedSymbols">
+                  <i
+                    *ngIf="!getWaypoint(orbital.symbol).chart"
+                    class="fa-regular fa-eye-slash waypointKeyedSymbol"
+                  ></i
+                  ><i
+                    *ngIf="doesWaypointHaveShip(orbital.symbol)"
+                    class="fa-regular fa-rocket waypointKeyedSymbol"
+                  ></i>
+                </div>
+                <span class="waypointDetailPanelListItemOrbitalCoords"
+                  >({{ getWaypoint(orbital.symbol).x }},
+                  {{ getWaypoint(orbital.symbol).y }})</span
+                >
+                <span class="waypointDetailPanelListItemOrbitalType">{{
+                  getWaypoint(orbital.symbol).type
+                }}</span> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

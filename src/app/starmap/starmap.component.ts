@@ -5,7 +5,8 @@ import { BaseChartDirective } from 'ng2-charts';
 import createScatterPlot from 'regl-scatterplot';
 import { scaleLinear, ScaleLinear } from 'd3-scale';
 import { axisBottom, axisRight } from 'd3-axis';
-import { select } from 'd3-selection';
+import { select, selectAll } from 'd3-selection';
+import { Ship, System, SystemWaypoint } from 'spacetraders-v2-ng';
 
 @Component({
   selector: 'app-starmap',
@@ -14,6 +15,12 @@ import { select } from 'd3-selection';
 })
 export class StarmapComponent {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+
+  selectedSystemSymbol: string | undefined;
+  selectedSystemCategory: string | undefined;
+  selectedSystemX: number | undefined;
+  selectedSystemY: number | undefined;
+  selectedSystemWaypoints: SystemWaypoint[] | undefined;
 
   chartLabels: Array<string> = [];
   coordinateMatrix: number[][] = [];
@@ -35,21 +42,51 @@ export class StarmapComponent {
   width: number = 0;
   height: number = 0;
 
+  systemFavorites: string[] = ['X1-DF55'];
+  // systemFavorites: string[] = [];
+  categoryMap: Record<number, string> = {
+    0: 'Uncategorized',
+    1: 'Favorited',
+    2: 'Uninitialized',
+    3: 'Has Ship',
+  };
+
   selectHandler = (points: { points: number[] }) => {
     let selectedPoints = points.points;
-    console.log('Selected:', selectedPoints);
+    // console.log('Selected:', selectedPoints);
     this.selection = selectedPoints;
     if (this.selection.length === 1) {
       const point = this.coordinateMatrix[this.selection[0]];
-      console.log(
-        `X: ${this.normalizeCoordinate(
-          point[0],
-          true,
-          true
-        )}\nY: ${this.normalizeCoordinate(point[1], false, true)}\nCategory: ${
-          point[2]
-        }\nValue: ${this.chartLabels[point[3]]}`
-      );
+      this.selectedSystemX = this.normalizeCoordinate(point[0], true, true);
+      this.selectedSystemY = this.normalizeCoordinate(point[1], false, true);
+      this.selectedSystemCategory = this.categoryMap[point[2]];
+      this.selectedSystemSymbol = this.chartLabels[point[3]];
+      let tempSysStorage: System[] = this.api
+        .retrieveLocally('systems')
+        .systems.filter(
+          (sys: System) => sys.symbol == this.selectedSystemSymbol
+        );
+      if (
+        tempSysStorage.length > 0 &&
+        tempSysStorage[0].waypoints &&
+        tempSysStorage[0].waypoints.length > 0
+      ) {
+        this.selectedSystemWaypoints = tempSysStorage[0].waypoints;
+      }
+      // console.log(
+      //   `X: ${this.normalizeCoordinate(
+      //     point[0],
+      //     true,
+      //     true
+      //   )}\nY: ${this.normalizeCoordinate(point[1], false, true)}\nCategory: ${
+      //     point[2]
+      //   }\nValue: ${this.chartLabels[point[3]]}
+      //   System Waypoints: ${
+      //     this.selectedSystemWaypoints
+      //       ? this.selectedSystemWaypoints.length
+      //       : undefined
+      //   }`
+      // );
     }
   };
 
@@ -85,8 +122,9 @@ export class StarmapComponent {
     let smHeight: number = smRect.height;
 
     this.axisContainer = select(this.parentContainer).append('svg');
-    this.xAxisContainer = this.axisContainer.append('g');
-    this.yAxisContainer = this.axisContainer.append('g');
+    this.axisContainer.attr('style', 'color: #fff');
+    this.xAxisContainer = this.axisContainer.append('g').attr('class', 'axis');
+    this.yAxisContainer = this.axisContainer.append('g').attr('class', 'axis');
     this.axisContainer.node().style.position = 'absolute';
     this.axisContainer.node().style.top = canvas.offsetTop;
     this.axisContainer.node().style.left = canvas.offsetLeft;
@@ -111,9 +149,12 @@ export class StarmapComponent {
     this.xAxis.tickSizeInner(-this.height);
     this.yAxis.tickSizeInner(-this.width);
 
-    let mainYellow: string = '#fffb00';
-    let mainWhite: string = '#ffffff';
-    let labelBlue: string = '#82cefa';
+    selectAll('.tick line').attr('style', 'color: rgba(255, 255, 255, 0.1)');
+
+    let favoriteYellow: string = '#fffb00';
+    let uncategorizedLightBlue: string = '#ddeef8';
+    let uninitializedRed = '#ff2100';
+    let hasShipGreen = '#00ff7a';
     this.scatterplot = createScatterPlot({
       canvas: canvas,
       width: smWidth,
@@ -129,9 +170,15 @@ export class StarmapComponent {
         meta: 'rotate',
       },
       colorBy: 'category',
-      pointColor: [mainYellow, mainWhite],
+      sizeBy: 'category',
+      pointColor: [
+        uncategorizedLightBlue,
+        favoriteYellow,
+        uninitializedRed,
+        hasShipGreen,
+      ],
+      pointSize: [2, 5, 3, 5],
       // opacity: 1,
-      pointSize: 3,
     });
 
     this.scatterplot.subscribe('select', this.selectHandler);
@@ -139,8 +186,14 @@ export class StarmapComponent {
     this.scatterplot.subscribe(
       'view',
       (event: { xScale: any; yScale: any }) => {
+        this.axisContainer.node().style.top = canvas.offsetTop;
+        this.axisContainer.node().style.left = canvas.offsetLeft;
         this.xAxisContainer.call(this.xAxis.scale(event.xScale));
         this.yAxisContainer.call(this.yAxis.scale(event.yScale));
+        selectAll('.tick line').attr(
+          'style',
+          'color: rgba(255, 255, 255, 0.1)'
+        );
       }
     );
     this.scatterplot.subscribe(
@@ -156,7 +209,7 @@ export class StarmapComponent {
       1
     );
 
-    this.initializeCharts();
+    this.updateSystems();
   }
 
   constructor(public api: ApiService) {
@@ -179,13 +232,34 @@ export class StarmapComponent {
     this.canvasWrapper = document.querySelector('#starmap-wrapper')!;
   }
 
-  async initializeCharts() {
-    await this.api.getAllSystems();
+  async updateSystems(force = false) {
+    console.log(
+      '[starmap-component::updateSystems] Received call, checking if needed'
+    );
+    let stored = this.api.retrieveLocally('systems');
+    // If not as many systems as expected, or if data is 1 day stale (86400000 millis) then refresh from server
+    if (
+      stored == undefined ||
+      stored.systems.length == 0 ||
+      new Date().getTime() - new Date(stored.timestamp).getTime() >= 86400000 ||
+      force
+    ) {
+      console.log(
+        '[starmap-component::updateSystems] Systems are missing or stale, running update'
+      );
+      await this.api.getAllSystems();
+      stored = this.api.retrieveLocally('systems');
+    } else {
+      console.log(
+        '[starmap-component::updateSystems] Skipping update, systems are fresh'
+      );
+    }
     this.updateSystemChart();
   }
 
   get systems(): Array<System> {
-    return this.api.retrieveLocally('systems').systems;
+    let stored = this.api.retrieveLocally('systems');
+    return stored == null ? [] : stored.systems;
   }
 
   normalizeCoordinate(
@@ -223,6 +297,7 @@ export class StarmapComponent {
   }
 
   updateSystemChart() {
+    // TODO: CHECK DOES THIS WORK FOR UPDATING THE DATA?
     this.chartLabels = [];
     this.coordinateMatrix = [];
     let systems: System[] = this.systems;
@@ -237,34 +312,41 @@ export class StarmapComponent {
     // this.yScale = scaleLinear().domain(this.yDomain);
     // this.xAxis = axisBottom(this.xScale);
     // this.yAxis = axisRight(this.yScale);
+    let uninitialized = [];
+    let fleet: Ship[] = this.api.retrieveLocally('fleet').ships;
+    let fleetSystems = new Set();
+    for (let ship of fleet) {
+      fleetSystems.add(ship.nav.systemSymbol);
+    }
     for (let sys of systems) {
       this.chartLabels.push(sys.symbol);
       let normx = this.normalizeCoordinate(sys.x, true, false);
       let normy = this.normalizeCoordinate(sys.y, false, false);
+      let category = 0;
+      // Apply Uninitialized as Category
+      if (sys.waypoints.length == 0) {
+        category = 2;
+        uninitialized.push(sys.symbol);
+      }
+      // Apply Has Ship as Category
+      if (fleetSystems.has(sys.symbol)) {
+        category = 3;
+      }
+      // Apply Favorite as Category
+      if (this.systemFavorites.indexOf(sys.symbol) > -1) {
+        category = 1;
+      }
       this.coordinateMatrix.push([
         normx,
         normy,
-        0,
+        category,
         this.chartLabels.length - 1,
       ]);
     }
+    console.log(
+      '[starmap-component::updateSystemChart] Uninitialized Systems:',
+      uninitialized
+    );
     this.scatterplot.draw(this.coordinateMatrix);
   }
-}
-
-interface System {
-  factions: string[];
-  sectorSymbol: string;
-  symbol: string;
-  type: string;
-  waypoints: SystemWaypoint[];
-  x: number;
-  y: number;
-}
-
-interface SystemWaypoint {
-  symbol: string;
-  type: string;
-  x: number;
-  y: number;
 }

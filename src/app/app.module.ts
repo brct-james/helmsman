@@ -15,7 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FleetOverviewComponent } from './fleet-overview/fleet-overview.component';
-import { BankOverviewComponent } from './bank-overview/bank-overview.component';
+import { LedgerOverviewComponent } from './ledger-overview/ledger-overview.component';
 import { SettingsComponent } from './settings/settings.component';
 import { LoginComponent } from './login/login.component';
 import { FleetSettingsComponent } from './settings/fleet-settings/fleet-settings.component';
@@ -25,6 +25,7 @@ import { ArrivalEtaPipe } from './arrival-eta.pipe';
 import { FleetAutomationComponent } from './fleet-automation/fleet-automation.component';
 import { StarmapComponent } from './starmap/starmap.component';
 import { NgChartsModule } from 'ng2-charts';
+import { StarpanelComponent } from './starmap/starpanel/starpanel.component';
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
@@ -38,7 +39,7 @@ export function apiConfigFactory(): Configuration {
     AppComponent,
     DashboardComponent,
     FleetOverviewComponent,
-    BankOverviewComponent,
+    LedgerOverviewComponent,
     SettingsComponent,
     LoginComponent,
     FleetSettingsComponent,
@@ -46,6 +47,7 @@ export function apiConfigFactory(): Configuration {
     ArrivalEtaPipe,
     FleetAutomationComponent,
     StarmapComponent,
+    StarpanelComponent,
   ],
   imports: [
     BrowserModule,
