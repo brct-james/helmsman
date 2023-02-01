@@ -31,9 +31,7 @@
     <span>Fleet</span>
   </a>
   <div id="logoHeader">
-    <span id="logoLabel">Helmsman</span>
     <img src="assets/images/helmsman_logo_thicc.svg" />
-    <span id="usernameHeader">{{ username }}</span>
   </div>
   <a
     class="navItem"
@@ -68,4 +66,22 @@
 </nav>
 <div class="bodyContent">
   <router-outlet></router-outlet>
+</div>
+<div class="footer">
+  <div id="usernameHeader">
+    <span id="agentLabel">Agent:</span>
+    <div
+      id="agentUsername"
+      class="copiableText tooltip"
+      [cdkCopyToClipboard]="username"
+      (click)="copySymbolEvent(username)"
+      [ngClass]="animateCopySymbol[username] ? 'copyFlash' : ''"
+    >
+      {{ username }}
+      <span class="tooltiptext tooltiptexttop">Click to Copy</span>
+    </div>
+  </div>
+  <!-- <span
+    >Agent: <span id="usernameHeader">{{ username }}</span></span
+  > -->
 </div>

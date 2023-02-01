@@ -14,11 +14,19 @@ export class AppComponent {
   get username(): string {
     if (this.api.haveSession) {
       return this.api.retrieveLocally('userInfo') === null
-        ? 'HELMSMAN'
+        ? 'Error Loading'
         : this.api.retrieveLocally('userInfo').username;
     } else {
-      return 'HELMSMAN';
+      return 'Loading...';
     }
+  }
+
+  animateCopySymbol: Record<string, boolean> = {};
+  copySymbolEvent(key: string) {
+    this.animateCopySymbol[key] = true;
+    setTimeout(() => {
+      this.animateCopySymbol[key] = false;
+    }, 100);
   }
 
   async refreshStarmap() {
