@@ -68,7 +68,7 @@
   <router-outlet></router-outlet>
 </div>
 <div class="footer">
-  <div id="usernameHeader">
+  <div id="usernameHeader" class="footerItem">
     <span id="agentLabel">Agent:</span>
     <div
       id="agentUsername"
@@ -81,7 +81,9 @@
       <span class="tooltiptext tooltiptexttop">Click to Copy</span>
     </div>
   </div>
-  <!-- <span
-    >Agent: <span id="usernameHeader">{{ username }}</span></span
-  > -->
+  <div id="ledgerUpdate" class="footerItem"></div>
+  <div id="fleetUpdate" class="footerItem">
+    <span>Fleet Update In {{ timeRemainingGetFleetStatus }}s</span>
+  </div>
+  <div id="starmapUpdate" class="footerItem"></div>
 </div>

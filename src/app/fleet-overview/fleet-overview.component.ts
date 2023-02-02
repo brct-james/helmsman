@@ -3,6 +3,7 @@ import { ApiService } from '../api.service';
 import { IntervalService } from '../interval.service';
 import { SettingService } from '../setting.service';
 import { Ship } from 'spacetraders-v2-ng';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'app-fleet-overview',
@@ -15,7 +16,8 @@ export class FleetOverviewComponent {
   constructor(
     public api: ApiService,
     public intervals: IntervalService,
-    private settings: SettingService
+    private settings: SettingService,
+    public storage: StorageService
   ) {}
 
   get timeRemainingGetFleetStatus() {
@@ -28,7 +30,7 @@ export class FleetOverviewComponent {
   }
 
   // get fleetArray() {
-  //   let arr: object[] = this.api.retrieveLocally("fleet").ships;
+  //   let arr: object[] = this.storage.retrieve("fleet").ships;
   //   return arr;
   // }
 
@@ -44,6 +46,8 @@ export class FleetOverviewComponent {
 
   async updateFleetInfo(): Promise<void> {
     await this.api.getAllShips();
-    this.fleetArray = this.api.retrieveLocally('fleet').ships;
+    let retrieved = this.storage.retrieve('fleet');
+    this.fleetArray =
+      retrieved == undefined ? [] : [...retrieved.data.values()];
   }
 }

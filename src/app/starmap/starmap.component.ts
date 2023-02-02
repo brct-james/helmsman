@@ -7,6 +7,7 @@ import { scaleLinear, ScaleLinear } from 'd3-scale';
 import { axisBottom, axisRight } from 'd3-axis';
 import { select, selectAll } from 'd3-selection';
 import { Ship, System, SystemWaypoint } from 'spacetraders-v2-ng';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'app-starmap',
@@ -61,11 +62,10 @@ export class StarmapComponent {
       this.selectedSystemY = this.normalizeCoordinate(point[1], false, true);
       this.selectedSystemCategory = this.categoryMap[point[2]];
       this.selectedSystemSymbol = this.chartLabels[point[3]];
-      let tempSysStorage: System[] = this.api
-        .retrieveLocally('systems')
-        .systems.filter(
-          (sys: System) => sys.symbol == this.selectedSystemSymbol
-        );
+      let retrievedSystems = this.storage.retrieve('systems');
+      let tempSysStorage: System[] = [...this.systems.values()].filter(
+        (sys: System) => sys.symbol == this.selectedSystemSymbol
+      );
       if (
         tempSysStorage.length > 0 &&
         tempSysStorage[0].waypoints &&
@@ -212,8 +212,8 @@ export class StarmapComponent {
     this.updateSystems();
   }
 
-  constructor(public api: ApiService) {
-    let systems: System[] = this.systems;
+  constructor(public api: ApiService, public storage: StorageService) {
+    let systems: System[] = [...this.systems.values()];
     let sysx = systems.map((s) => s.x);
     let sysy = systems.map((s) => s.y);
     let xmax = Math.max(...sysx);
@@ -236,19 +236,20 @@ export class StarmapComponent {
     console.log(
       '[starmap-component::updateSystems] Received call, checking if needed'
     );
-    let stored = this.api.retrieveLocally('systems');
+    let retrieved = this.storage.retrieve('systems');
     // If not as many systems as expected, or if data is 1 day stale (86400000 millis) then refresh from server
     if (
-      stored == undefined ||
-      stored.systems.length == 0 ||
-      new Date().getTime() - new Date(stored.timestamp).getTime() >= 86400000 ||
+      retrieved == undefined ||
+      retrieved.data.size == 0 ||
+      new Date().getTime() - new Date(retrieved.timestamp).getTime() >=
+        86400000 ||
       force
     ) {
       console.log(
         '[starmap-component::updateSystems] Systems are missing or stale, running update'
       );
       await this.api.getAllSystems();
-      stored = this.api.retrieveLocally('systems');
+      retrieved = this.storage.retrieve('systems');
     } else {
       console.log(
         '[starmap-component::updateSystems] Skipping update, systems are fresh'
@@ -257,9 +258,9 @@ export class StarmapComponent {
     this.updateSystemChart();
   }
 
-  get systems(): Array<System> {
-    let stored = this.api.retrieveLocally('systems');
-    return stored == null ? [] : stored.systems;
+  get systems(): Map<string, System> {
+    let retrieved = this.storage.retrieve('systems');
+    return retrieved == undefined ? new Map<string, System>() : retrieved.data;
   }
 
   normalizeCoordinate(
@@ -300,7 +301,6 @@ export class StarmapComponent {
     // TODO: CHECK DOES THIS WORK FOR UPDATING THE DATA?
     this.chartLabels = [];
     this.coordinateMatrix = [];
-    let systems: System[] = this.systems;
     // let xmax = Math.max(...systems.map((s) => s.y));
     // let xmin = Math.min(...systems.map((s) => s.y));
     // let ymax = Math.max(...systems.map((s) => s.y));
@@ -313,12 +313,13 @@ export class StarmapComponent {
     // this.xAxis = axisBottom(this.xScale);
     // this.yAxis = axisRight(this.yScale);
     let uninitialized = [];
-    let fleet: Ship[] = this.api.retrieveLocally('fleet').ships;
+    let retrievedFleet = this.storage.retrieve('fleet');
+    let fleet = retrievedFleet ? retrievedFleet.data : new Map<string, Ship>();
     let fleetSystems = new Set();
-    for (let ship of fleet) {
+    for (let ship of fleet.values()) {
       fleetSystems.add(ship.nav.systemSymbol);
     }
-    for (let sys of systems) {
+    for (let sys of this.systems.values()) {
       this.chartLabels.push(sys.symbol);
       let normx = this.normalizeCoordinate(sys.x, true, false);
       let normy = this.normalizeCoordinate(sys.y, false, false);

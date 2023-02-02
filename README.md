@@ -11,19 +11,27 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - Add ships to waypoint detail panel
 - Add system category for no system waypoints (uninitialized)
 - Starmap: Add click to open ship functionality in starmap waypoint details after creating logic for f/<ship-id> routes
+- FLEET: create f/<ship-id> routes
+- APP: Break out storage service from API
+  - create getters for anything that we are caching that return local variables on storage service
+  - refactor all components to call api functions that update storage
+  - storage should only retrieve from localstorage on page load, and will always save to localstorage
+  - convert Record to Map types
 
 ### ON DECK
 
-- FLEET: create f/<ship-id> routes
+- FLEET: Improve /ships routes:
   - Instead of reusing ship cards, make a better interface for interacting with ships here, maybe use starmap but make it system map
 - APP: Add bottom bar to all pages, it should display contextual information depending on the route
   - On fleet and ship pages it shows time since and till fleet update with a button to do it immediately (remove current implementation)
   - Same on starmap (remove current implementation)
   - Use `'Courier New', monospace` font-family as placeholder for app-wide restyling
-- FLEET: Rework how flightplans are displayed for ship cards
+  - Move update timeout stuff to app (or api?) instead of fleet or starmap.
+- Convert api from .subscribe to .firstValueFrom???
 
 ### BACKLOG (Unranked)
 
+- FLEET: Rework how flightplans are displayed for ship cards
 - APP: Change default fonts
   - Use a more stylized (mono?) font
   - Courier New doesn't look the best especially bolded
